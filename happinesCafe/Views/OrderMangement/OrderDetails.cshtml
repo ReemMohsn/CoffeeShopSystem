@@ -1,0 +1,263 @@
+﻿@* ~/Views/OrderMangement/OrderDetails.cshtml *@
+@model happinesCafe.Models.Admin.OrderDetailsViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+    Layout = "_Layout1";
+}
+
+<div class="order-details-container">
+
+    <h1 class="dashboard-title" style= " color: #F2F1F4">Order Details #@Model.IdOrder</h1>
+
+    @* Display Success/Error Messages *@
+    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+    { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
+    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+    { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
+    @* Customer Info & Order Summary Section *@
+    <div class="details-section card">
+        @* ... Customer/Order info blocks remain the same ... *@
+         <div class="info-block">
+            <h4 class="section-subtitle">Customer & Order Info</h4>
+            <p><strong>Order ID:</strong> @Model.IdOrder</p>
+            <p><strong>Customer:</strong> @Model.CustomerName</p>
+            <p><strong>Date:</strong> @Model.OrderDate.ToString("dd MMM yyyy, HH:mm")</p>
+            @* Add phone/address if available in User model and needed *@
+        </div>
+        <div class="info-block">
+            <h4 class="section-subtitle">Order Summary</h4>
+            <p><strong>Total:</strong> <span class="price-highlight">@Model.TotalPrice.ToString("C")</span></p>
+            <p><strong>Status:</strong> <span class="status-badge status-@Model.OrderStatus?.ToLower().Replace(" ", "-")">@Model.OrderStatus</span></p> @* Added Replace for possible spaces in status names for CSS class *@
+        </div>
+
+    </div>
+
+    @* -- STYLED Ordered Items Table -- *@
+    <div class="recentOrders card"> @* ADD 'card' for background/padding/border-radius etc. *@
+        <div class="cardHeader"> @* Reuse existing style for header area *@
+            <h2 class="items-table-title">Ordered Items</h2> @* Use a unique class if needed, or style cardHeader h2 *@
+        </div>
+        <table>  @* This table will inherit styles from .recentOrders table in the embedded CSS *@
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Size</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Line Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.OrderedItems.Any())
+                {
+                     @foreach (var item in Model.OrderedItems)
+                    {
+                        <tr>
+                            <td data-label="Product">@item.ProductName</td> @* Added data-label for potential responsive design *@
+                            <td data-label="Size">@item.SizeName</td>
+                            <td data-label="Quantity">@item.Quantity</td>
+                            <td data-label="Unit Price">@item.UnitPrice.ToString("C")</td>
+                            <td data-label="Line Total">@item.LineTotal.ToString("C")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                     <tr>
+                         <td colspan="5" class="no-data">No items found for this order.</td>
+                     </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @* -- End STYLED Ordered Items Table -- *@
+
+
+    @* Action Forms Section *@
+    <div class="actions-section card">
+         @* ... Action form blocks remain the same ... *@
+            @* Update Status Form *@
+        <div class="action-block">
+            <h4 class="section-subtitle">Update Order Status</h4>
+           <!-- Use asp-route-id in the form tag to pass the ID -->
+<form asp-action="UpdateStatus" asp-route-id="@Model.IdOrder" method="post" class="action-form">
+    @Html.AntiForgeryToken()
+    <!-- No hidden input for IdOrder needed here if using asp-route-id -->
+    <div class="form-group">
+        <label asp-for="NewStatusId">New Status:</label>
+        <select asp-for="NewStatusId" class="action-select">
+            @foreach (var status in Model.AvailableStates)
+            {
+                // Select the current status only if it differs from the one being looped through
+                 if (status.IdState == Model.CurrentStatusId)
+                {
+                    <option value="@status.IdState" selected>@status.NameState (Current)</option>
+                 }
+                else
+                 {
+                     <option value="@status.IdState">@status.NameState</option>
+                 }
+            }
+        </select>
+        <span asp-validation-for="NewStatusId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="action-button update-button">Update Status</button>
+</form>
+        </div>
+
+        <div class="action-separator"></div>
+
+        @* Cancel Order Form *@
+        <div class="action-block">
+             <h4 class="section-subtitle">Cancel Order</h4>
+             <!-- Use asp-route-id here too -->
+             <form asp-action="CancelOrder" asp-route-id="@Model.IdOrder" method="post" class="action-form">
+                  @Html.AntiForgeryToken()
+                  <!-- No hidden input needed -->
+                 <p class="cancel-warning">Cancelling cannot be undone.</p>
+                <button type="submit" class="action-button cancel-button"
+                        onclick="return confirm('Are you sure you want to cancel this order? This cannot be undone.');">
+                    Cancel Order
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@* -- CSS STYLING -- *@
+<style>
+    /* --- Existing Styles (Keep them) --- */
+    .status-badge.status-processing { background-color: #17a2b8; color: #F2F1F4;}
+     .status-badge.status-completed { background-color: #28a745; color: #F2F1F4;}
+     .status-badge.status-cancelled { background-color: #dc3545; color: #F2F1F4;}
+     .status-badge.status-pending { background-color: #ffc107; color: #1d120c; }
+
+     .order-details-container { padding: 20px; }
+     .details-section { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; margin-bottom: 30px; background-color: #723A1F; border-radius: 15px; box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7); }
+     .info-block { flex: 1; min-width: 250px; color: #F2F1F4; }
+     .section-subtitle { font-family: 'BodoniModa_72pt-Regular', serif; font-size: 1.8rem; color: #b16e25; border-bottom: 1px solid #b16e25; padding-bottom: 5px; margin-bottom: 15px; }
+     .info-block p { font-size: 1.5rem; font-family: 'aldhabi', sans-serif; margin-bottom: 8px; line-height: 1.4; }
+     .info-block p strong { color: #f2f1f4; font-weight: normal; min-width: 100px; display: inline-block; }
+     .price-highlight { font-weight: bold; font-size: 1.7rem; color: #FFF; }
+     .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 1.3rem; font-family: 'BodoniModa_72pt-Regular', serif; color: #1d120c; background-color: #ccc; text-transform: capitalize; }
+     .actions-section { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; margin-top: 30px; background-color: #723A1F; border-radius: 15px; box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7); }
+     .action-block { flex: 1; min-width: 250px; color: #F2F1F4; }
+     .action-separator { width: 1px; background-color: #b16e25; align-self: stretch; }
+     .action-form .form-group { margin-bottom: 15px; }
+     .action-form label { display: block; color: #F2F1F4; font-size: 1.4rem; margin-bottom: 5px; font-family: 'aldhabi', sans-serif; }
+     .action-select { padding: 8px 12px; border-radius: 20px; border: 1px solid #b16e25; background-color: #1d120c; color: #F2F1F4; font-size: 1.4rem; outline: none; width: 100%; }
+     .action-button { display: inline-block; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 1.6rem; font-family: 'aldhabi', sans-serif; cursor: pointer; transition: all 0.2s ease; border: none; margin-top: 10px; }
+     .update-button { background-color: #3498db; color: #F2F1F4; }
+     .update-button:hover { background-color: #2980b9; transform: scale(1.05); }
+     .cancel-button { background-color: #e74c3c; color: #F2F1F4; }
+     .cancel-button:hover { background-color: #c0392b; transform: scale(1.05); }
+     .cancel-warning { font-size: 1.3rem; opacity: 0.8; margin-bottom: 10px; }
+     .text-danger { color: #e74c3c; font-size: 1.2rem; display: block; margin-top: 4px; }
+
+
+    /* --- Styles specifically for the Ordered Items Table --- */
+
+    /* Inherit card styling for the container */
+    .recentOrders.card {
+        background-color: #723A1F; /* Match other cards */
+        padding: 0; /* Remove padding if cardHeader provides it */
+        border-radius: 15px; /* Match other cards */
+        box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7); /* Match */
+        overflow: hidden; /* Keep table corners rounded */
+        margin-top: 30px; /* Spacing */
+    }
+
+    /* Style the header within the items table card */
+    .recentOrders .cardHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px; /* Adjust padding */
+        border-bottom: 1px solid #b16e25; /* Separator */
+       /* background-color: #1d120c; Optional: Darker header background */
+    }
+
+    .recentOrders .cardHeader h2 { /* Might need .items-table-title if shared */
+        color: #F2F1F4;
+        font-family: 'BodoniModa_72pt-Regular', serif;
+        font-size: 1.8rem; /* Match section-subtitle? */
+        font-weight: normal;
+        margin: 0; /* Remove default margin */
+    }
+
+    /* Style the table itself */
+    .recentOrders table {
+        width: 100%;
+        border-collapse: collapse; /* Remove gaps between cells */
+    }
+
+    /* Table Header Styling */
+    .recentOrders table thead tr {
+        color: #F2F1F4; /* Light header text */
+        background-color: transparent; /* Header background now comes from cardHeader */
+         font-size: 1.4rem; /* Header font size */
+         font-family: 'BodoniModa_72pt-Regular', serif; /* Header font */
+         border-bottom: 2px solid #b16e25; /* Stronger line under header */
+    }
+
+     .recentOrders table th {
+        padding: 12px 15px; /* Padding in header cells */
+        text-align: left; /* Align header text left */
+        font-weight: normal; /* Reset bold if needed */
+     }
+
+    /* Table Body Styling */
+    .recentOrders table tbody tr {
+        color: #F2F1F4; /* Light body text */
+        border-bottom: 1px solid #b16e25; /* Lighter Separator line between rows */
+        transition: background-color 0.2s ease; /* Hover effect */
+    }
+     /* Remove border from last row */
+    .recentOrders table tbody tr:last-child {
+        border-bottom: none;
+    }
+
+     /* Hover effect */
+    .recentOrders table tbody tr:hover {
+        background-color: #1d120c; /* Darker background on hover */
+        color: #ffffff; /* Brighter text on hover */
+    }
+
+    /* Table Data Cell Styling */
+    .recentOrders table td {
+        padding: 12px 15px; /* Match header padding */
+        font-size: 1.4rem; /* Body font size */
+        font-family: 'aldhabi', sans-serif; /* Body font */
+        vertical-align: middle; /* Ensure vertical alignment */
+    }
+
+     /* Specific column alignment if needed (e.g., right align prices) */
+    /*
+     .recentOrders table td:nth-child(3), /* Quantity */
+     .recentOrders table td:nth-child(4), /* Unit Price */
+     .recentOrders table td:nth-child(5) { /* Line Total */
+        text-align: right;
+        font-feature-settings: "tnum"; /* Align numbers */
+        font-variant-numeric: tabular-nums;
+     }
+     */
+
+
+    /* Styling for the "No items found" message */
+    .recentOrders table .no-data {
+         text-align: center;
+         font-style: italic;
+         color: #F2F1F4; /* Ensure light text */
+         opacity: 0.7;
+         padding: 25px 15px; /* More padding */
+         font-size: 1.5rem; /* Slightly larger */
+     }
+     /* Ensure hover doesn't apply to the no-data row */
+    .recentOrders table tbody tr:has(.no-data):hover {
+         background-color: transparent;
+     }
+
+</style>

@@ -1,0 +1,232 @@
+﻿@model User
+
+@section Links{
+    <title>Checkout</title>
+    <link rel="stylesheet" href="~/css/checkout.css" asp-append-version="true"/>
+}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <form asp-action="CheckOut" asp-controller="Buying" method="post">
+        <div class="row">
+            <div class="col">
+
+                <h3 class="title">Billing Information</h3>
+                <!--معلومات العميل (للعرض فقط) -->
+                <div class="customer-info">
+                    <div class="info-item inputBox">
+                        <span>Name:</span>
+                        <span class="info-value Domain">@Model.NameUser</span>
+                    </div>
+                    <div class="info-item inputBox">
+                        <span>Email:</span>
+                        <span class="info-value Domain">@Model.EmailUser</span>
+                    </div>
+                </div>
+
+                <!-- معلومات الشحن (قابلة للتعديل) -->
+                <div class="inputBox">
+                    <span>Shipping Address:</span>
+                    <input type="text" placeholder="enter shipping address" class="Domain" name="address" required>
+                </div>
+                <div class="inputBox">
+                    <span>City:</span>
+                    <select name="city" required class="Domain">
+                        <option value="Mukala">Mukala</option>
+                        <option value="Shhear">Shhear</option>
+                        <option value="Alail">Alail</option>
+                    </select>
+                </div>
+              <div class="inputBox">
+              <span>Phone Number:</span>
+              <input type="tel" 
+class="Domain"
+placeholder="enter phone number" 
+           name="phone" 
+           pattern="[0-9]{9,15}" 
+           title="يجب أن يحتوي على أرقام فقط (9-15 رقم)" 
+           required
+           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+</div>
+</div>
+
+            <div class="col">
+                <h3 class="title">Order Summary</h3>
+                <div class="order-summary">
+
+                    <!--   عرض ملخص الطلب -->
+                    <div class="summary-item inputBox">
+                        <span>Subtotal:</span>
+                        <span id="subtotal" class="Domain">$@ViewBag.totalprice</span>
+                    </div>
+                    <div class="summary-item inputBox">
+                        <span>Shipping:</span>
+                        <span id="shipping" class="Domain">$0</span>
+                    </div>
+                    
+<input type="hidden" name="totalPrice" value="@Html.Raw(ViewBag.totalPrice)" />  
+<div class="summary-item total inputBox">
+                        <span>Total:</span>
+                        <span id="total" class="Domain">$@ViewBag.totalPrice</span>
+                    </div>
+                </div>
+
+                <div class="payment-method inputBox">
+                    <span>Payment Method</span>
+                    <div class="method-option inputBox">
+                        <input type="radio" id="cashOnDelivery" class="Domain" name="paymentMethod" value="CashOnDelivery" checked>
+                        <label for="cashOnDelivery">
+                            <span class="method-icon">💵</span>
+                            <span class="method-title">Cash on Delivery</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a asp-controller="Buying" asp-action="Cart" class="back-btn">Back to Cart</a>
+            <button type="submit" class="submit-btn">Place Order</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+         const ErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
+        if (ErrorMessage) { 
+            alert(ErrorMessage);
+        }
+        </script>
+}
+
+@*
+@model Order
+
+@section Links{
+    <title>Checkout</title>
+    <link rel="stylesheet" href="~/css/checkout.css" asp-append-version="true"/>
+}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <form asp-action="CheckOut" asp-controller="Buying" method="post">
+
+         <!-- اظهار الأخطاء العامة -->
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+            <input asp-for="IdUser" value="@Model.IdUser" type="hidden" >
+                     <input asp-for="TotalePrice" type="hidden" value="@Model.TotalePrice">
+                     <input asp-for="IdState" type="hidden" value="@Model.IdState">
+                     <input asp-for="OrderDate" type="hidden" value="@Model.OrderDate">
+                     <input asp-for="NewOrNot" type="hidden" value="@Model.NewOrNot">
+                     
+        <div class="row">
+            <div class="col">
+
+                <h3 class="title">Billing Information</h3>
+                <!--معلومات العميل (للعرض فقط) -->
+                <div class="customer-info">
+                    <div class="info-item inputBox">
+                        <span>Name:</span>
+                        <span class="info-value Domain">@ViewBag.user.NameUser</span>
+                    </div>
+                    <div class="info-item inputBox">
+                        <span>Email:</span>
+                        <span class="info-value Domain">@ViewBag.user.EmailUser</span>
+                    </div>
+                </div>
+
+                <!-- معلومات الشحن (قابلة للتعديل) -->
+                <div class="inputBox">
+                    <span>Shipping Address:</span>
+                    <input asp-for="ShippingAddress" type="text" placeholder="enter shipping address" class="Domain"  required>
+                    <span asp-validation-for="ShippingAddress" class="text-danger"></span>
+                </div>
+                <div class="inputBox">
+                    <span>City:</span>
+                    <select asp-for="City" required class="Domain">
+                        <option value="Mukala">Mukala</option>
+                        <option value="Shhear">Shhear</option>
+                        <option value="Alail">Alail</option>
+                    </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+              <div class="inputBox">
+              <span>Phone Number:</span>
+              <input type="tel" 
+              asp-for="ContactPhone"
+class="Domain"
+placeholder="enter phone number" 
+           pattern="[0-9]{9,15}" 
+           title="يجب أن يحتوي على أرقام فقط (9-15 رقم)" 
+           required
+           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+         <span asp-validation-for="ContactPhone" class="text-danger"></span>
+</div>
+</div>
+
+            <div class="col">
+                <h3 class="title">Order Summary</h3>
+                <div class="order-summary">
+
+                    <!--   عرض ملخص الطلب -->
+                    <div class="summary-item inputBox">
+                        <span>Subtotal:</span>
+                        <span id="subtotal" class="Domain">$@ViewBag.totalprice</span>
+                    </div>
+                    <div class="summary-item inputBox">
+                        <span>Shipping:</span>
+                        <span id="shipping" class="Domain">$0</span>
+                    </div>
+                    
+<input type="hidden" asp-for="TotalePrice" value="@Html.Raw(ViewBag.totalPrice)" />  
+<div class="summary-item total inputBox">
+                        <span>Total:</span>
+                        <span id="total" class="Domain">$@ViewBag.totalPrice</span>
+                    </div>
+                </div>
+                <div class="payment-method inputBox">
+                    <span>Payment Method</span>
+                    <div class="method-option inputBox">
+                        <input type="radio" id="cashOnDelivery" class="Domain"  value="CashOnDelivery" checked>
+                        <label for="cashOnDelivery">
+                            <span class="method-icon">💵</span>
+                            <span class="method-title">Cash on Delivery</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a asp-controller="Buying" asp-action="Cart" class="back-btn">Back to Cart</a>
+            <button type="submit" class="submit-btn">Place Order</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+         const ErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
+        if (ErrorMessage) { 
+            alert(ErrorMessage);
+        }
+        </script>
+}
+*@

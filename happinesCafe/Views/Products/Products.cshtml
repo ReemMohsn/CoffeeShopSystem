@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Antiforgery
+
+ @section Links{
+   <title>Products</title>
+      <link rel="stylesheet"href="~/css/Menu.css" asp-append-version="true"/>
+        <style>
+        .ProductsContener {
+    justify-content: space-around;
+    white-space: wrap;
+}
+.Menu .ProductsContener .product .productImge {
+    width: 105px;
+    height: 170px;
+}
+.Menu .ProductsContener .product .ProductName {
+    margin-top: 100px;
+}
+
+</style>
+} 
+
+   
+
+<!-- conta -->
+    <div class="title">Products</div>
+    
+@{
+    var productGroups = ((IEnumerable<dynamic>)ViewBag.Products)
+        .Select((product, index) => new { product, index })
+        .GroupBy(x => x.index / 3);
+}
+@foreach (var group in productGroups)
+{
+    <section class="Menu" id="menu-@group.Key">
+        <img src="~/imges/16.png" alt="pattern" class="pattern1">
+        <img src="~/imges/18.png" alt="pattern" class="pattern2">
+        
+        <div class="ProductsContener">
+            @foreach (var item in group)
+            {
+                var product = item.product;
+                <div class="product">
+                    <a href="@Url.Action("ProductDetails", "Products", new { id = product.IdProduct })">
+                        <img src="~/imges/@Url.Content(product.Picture)" alt="@product.NameProduct" class="productImge">
+                    </a>
+                    <div class="productDetails">
+                        <div class="ProductName">
+                            <p><b>@product.NameProduct</b></p>
+                        </div>
+                        <div class="Evaluate">
+                            <p>@product.AverageRating.ToString("0.0") <img src="~/imges/star.png" alt="star" class="star"></p>
+                        </div>
+                        <div class="details">
+                            <p class="Volume">Volume 500 g</p>
+                        </div>
+                        <div class="PriceAdd">
+            <p class="price1">$@product.MinPrice.ToString("0.00")</p>
+            <a href="#" class="add-to-cart" data-id="@product.IdProduct">
+                <img src="~/imges/add.png" alt="AddIcon" class="AddIcon">
+            </a>
+        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+} 
+
+
+
+
+
+
+
+
+@section Scripts
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // معالجة النقر على زر الإضافة
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-id');
+                    
+                    try {
+                        const response = await fetch('/Products/AddToCartSimple', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `productId=${productId}`
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.success) {
+                                alert(result.message);
+                            } else {
+                                alert(result.error);
+                            }
+                        }else {
+                            alert('حدث خطأ في الاتصال بالخادم');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('حدث خطأ أثناء الإضافة إلى السلة');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,128 @@
+﻿@model IEnumerable<happinesCafe.Models.Admin.ReviewListViewModel>
+
+@{
+    ViewData["Title"] = "Review Management";
+    Layout = "_Layout1";
+}
+
+<div class="review-management-container">
+
+    <h1 class="dashboard-title">Review Management</h1>
+
+    @* Display Success/Error Messages *@
+    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+    { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
+    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+    { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
+    @* Filter Section - Only Search Filter Now *@
+    <div class="filter-container card">
+        <form asp-action="Index" method="get" class="filter-form">
+            @* REMOVED Approval Status Filter *@
+            <div class="filter-group">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" name="searchFilter" value="@ViewBag.SearchFilter" placeholder="Product, Customer, or Review Text" class="filter-input" />
+            </div>
+            <button type="submit" class="filter-button">Filter</button>
+        </form>
+    </div>
+
+    @* Reviews Table *@
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Customer Reviews</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Customer</th>
+                    <th>Rating</th>
+                    <th>Review Text</th> @* Renamed Header *@
+                    <th>Date</th>
+                    @* REMOVED Status Header *@
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var review in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => review.ProductName)</td>
+                            <td>@Html.DisplayFor(modelItem => review.CustomerName)</td>
+                            <td>
+                                <span class="review-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <ion-icon name="@(i <= review.Rating ? "star" : "star-outline")" class="star-icon @(i <= review.Rating ? "filled" : "")"></ion-icon>
+                                    }
+                                </span>
+                            </td>
+                            @* Use ShortReviewtext *@
+                            <td title="@review.ShortReviewtext">@Html.DisplayFor(modelItem => review.ShortReviewtext)</td>
+                            @* Display Date - Consider formatting for null *@
+                            <td>@(review.ReviewDate?.ToString("dd MMM yyyy") ?? "N/A")</td>
+                            @* REMOVED Status Badge Cell *@
+                            <td class="action-cell">
+                                <a asp-action="Details" asp-route-id="@review.IdReview" class="action-button details-button" title="View Details">
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                </a>
+                                @* REMOVED ToggleApproval Form/Button *@
+                                <a asp-action="Delete" asp-route-id="@review.IdReview" class="action-button delete-button" title="Delete Review">
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="no-data">No reviews found matching your criteria.</td> @* Adjusted colspan *@
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@* Styles (should be in main CSS file) *@
+<style>
+    .review-management-container { padding: 20px; }
+    /* Filters */
+     .filter-container { padding: 20px; margin-bottom: 30px; background-color: #723A1F; border-radius: 15px; box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7); }
+     .filter-form { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; }
+     .filter-group { display: flex; flex-direction: column; flex-grow: 1; min-width: 200px; /* Made slightly wider */ }
+     .filter-group label { color: #F2F1F4; font-size: 2rem; margin-bottom: 5px; font-family: 'aldhabi', sans-serif; }
+     .filter-input, .filter-select { padding: 8px 12px; border-radius: 20px; border: 1px solid #b16e25; background-color: #1d120c; color: #F2F1F4; font-size: 2rem; outline: none; width: 100%; }
+     .filter-button { padding: 10px 20px; background-color: #b16e25; color: #1d120c; border: none; border-radius: 20px; font-size: 2rem; font-family: 'aldhabi', sans-serif; cursor: pointer; transition: background-color 0.2s ease; align-self: flex-end; height: 40px; line-height: 1; }
+     .filter-button:hover { background-color: #F2F1F4; }
+    /* Table */
+     .recentOrders table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+     .recentOrders table thead tr { color: #F2F1F4; background-color: #723A1F; font-size: 2rem; font-family: 'BodoniModa_72pt-Regular', serif; }
+     .recentOrders table th { padding: 12px 10px; border-bottom: 2px solid #b16e25; text-align: left; }
+     .recentOrders table tbody tr { color: #F2F1F4; border-bottom: 1px solid #723A1F; }
+     .recentOrders table tbody tr:hover { background-color: #F2F1F4; color: #1d120c; }
+     .recentOrders table td { padding: 12px 10px; font-size: 2rem; font-family: 'aldhabi', sans-serif; vertical-align: middle; }
+     .no-data { text-align: center; font-style: italic; opacity: 0.7; padding: 20px; }
+    /* Rating */
+    .review-rating { white-space: nowrap; }
+    .star-icon { color: #ccc; font-size: 1.8rem; margin: 0 1px; vertical-align: middle; }
+    .star-icon.filled { color: #ffc107; }
+    /* Actions */
+    .action-cell { white-space: nowrap; text-align: center; }
+     .action-button { display: inline-block; padding: 5px 8px; margin: 0 3px; border-radius: 8px; text-decoration: none; font-size: 2rem; cursor: pointer; transition: all 0.2s ease; border: none; vertical-align: middle; line-height: 1; background: none; }
+     .action-button ion-icon { display: block; }
+     .details-button { color: #3498db; }
+     .details-button:hover { color: #2980b9; transform: scale(1.1); }
+     .delete-button { color: #e74c3c; }
+     .delete-button:hover { color: #c0392b; transform: scale(1.1); }
+    /* Alerts */
+     .alert { padding: 15px; margin: 15px 0; border-radius: 8px; font-size: 2rem; font-family: 'aldhabi', sans-serif; }
+     .alert-danger { background-color: #b16e25; color: #1d120c; border: 1px solid #723A1F; }
+     .alert-success { background-color: #4CAF50; color: #F2F1F4; border: 1px solid #388E3C; }
+    /* REMOVED status badge styles */
+</style>

@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" >
+    <link rel="icon" href="~/imges/ty.png"  asp-append-version="true">
+      @await RenderSectionAsync("Links", required: false)
+</head>
+<body class="MainPge">
+     @*@{
+        // التحقق مما إذا كانت الصفحة الحالية هي الصفحة الرئيسية
+        var isHomePage = ViewContext.RouteData.Values["Page"]?.ToString() == "/Index";
+    }*@
+
+    @{
+    var isHomePage = ViewContext.RouteData.Values["Action"]?.ToString() == "Index" 
+                  && ViewContext.RouteData.Values["Controller"]?.ToString() == "Home";
+}
+
+    <header class="header">
+        <a href="#" class="logo">
+            <img src="~/imges/ty.png" alt="">
+            <img src="~/imges/ttt.png" alt="">
+        </a>
+        <nav class="navbar">
+            @if (isHomePage)
+            {
+                <!-- إذا كانت الصفحة الحالية هي الرئيسية، استخدم # للانتقال إلى الأقسام -->
+                <a href="#home">Home</a>
+                <a href="#Strenght">AboutUs</a>
+                <a href="#Menu">Menu</a>
+                <a href="#products">Product</a>
+                <a href="#Review">Review</a>
+                <a href="#contact">ContactUs</a>
+                <a href="#footer">footer</a>
+            }
+            else
+            {
+                <!-- إذا كانت الصفحة الحالية ليست الرئيسية، استخدم asp-page للانتقال إلى الصفحة الرئيسية مع # -->
+                <a asp-controller="Home" asp-action="Index" asp-fragment="home">Home</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="Strenght">AboutUs</a>
+                <a asp-controller="Products" asp-action="Menu">Menu</a>
+                <a asp-controller="Products" asp-action="Products">Products</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="Review">Review</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="contact">ContactUs</a>
+                <a href="#footer">footer</a>
+            }
+        </nav>
+        <div class="icons">
+            @{
+                var UserName = Context.Session.GetString("UserName");
+               var UserId = Context.Session.GetInt32("UserId");
+            }
+
+            @if (UserName==null)
+            {
+             <a asp-controller="SignInUp" asp-action="SignIn" class="sign">
+                <img src="~/imges/4.png" alt="" class="signLogo">
+                Sign in
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Profile" asp-action="Details" asp-route-id=@UserId class="sign">
+                <img src="~/imges/4.png" alt="" class="signLogo">
+                 @UserName
+                </a>
+                <a asp-controller="Buying" asp-action="DisPlayOrders"  class="cartcontainer">
+                <img src="~/imges/clipboard.png" alt="" class="cart">
+                </a>
+            }
+            
+            <a asp-controller="Favorit" asp-action="Index" >
+                <img src="~/imges/123.png" alt="" class="galeb">
+            </a>
+            <a asp-controller="Buying" asp-action="Cart"  class="cartcontainer">
+                <img src="~/imges/ii.png" alt="" class="cart">
+                @*<span>0</span>*@
+            </a>
+            <div><img src="~/imges/5.png" alt="" id="menu-btn"></div>
+        </div>
+    </header>
+            @RenderBody()
+     <!-- footer ---------------------------------------------- -->
+     <footer class="footer" id="footer">
+        <div class="footercontainer">
+            <img src="~/imges/52.png" alt="" class="footerbackground">
+            <img src="~/imges/ttt.png" alt="" class="logo2">
+                <nav class="navbar navbardowen">
+                    @if (isHomePage)
+            {
+                <!-- إذا كانت الصفحة الحالية هي الرئيسية، استخدم # للانتقال إلى الأقسام -->
+                <a href="#home">Home</a>
+                <a href="#Strenght">AboutUs</a>
+                <a href="#Menu">Menu</a>
+                <a href="#products">Product</a>
+                <a href="#Review">Review</a>
+                <a href="#contact">ContactUs</a>
+                <a href="#footer">footer</a>
+            }
+            else
+            {
+                <!-- إذا كانت الصفحة الحالية ليست الرئيسية، استخدم asp-page للانتقال إلى الصفحة الرئيسية مع # -->
+                <a asp-controller="Home" asp-action="Index" asp-fragment="home">Home</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="Strenght">AboutUs</a>
+                <a asp-controller="Products" asp-action="Menu">Menu</a>
+                <a asp-controller="Products" asp-action="Products">Products</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="Review">Review</a>
+                <a asp-controller="Home" asp-action="Index" asp-fragment="contact">ContactUs</a>
+                <a href="#footer">footer</a>
+            }
+                </nav>
+                <div class="line"></div>
+                <div class="socalMedia">
+                 <a href="#"><img src="~/imges/53.png" alt=""></a>   
+        <a href=""><img src="~/imges/54.png" alt=""></a>           
+        <a href=""> <img src="~/imges/55.png" alt=""></a>
+        <a href=""><img src="~/imges/56.png" alt=""></a>            
+        <a href=""><img src="~/imges/57.png" alt=""></a>
+        </div>
+        </div>
+
+        <img src="~/imges/58.png" alt="" class="footerPatern1">
+        <img src="~/imges/59.png" alt="" class="footerPatern2">
+        <img src="~/imges/61.png" alt="" class="footerPatern3">
+        <img src="~/imges/62.png" alt="" class="footerPatern4">
+        
+        </footer>
+         <div class="hgog">© 2024 WS Project. All rights reserved.</div>
+       <script src="~/js/main.js" asp-append-version="true"></script>
+             @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

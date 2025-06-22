@@ -1,0 +1,34 @@
+﻿@section Links{
+    <title>Verify</title>
+    <link rel="stylesheet" href="~/css/sginin.css" asp-append-version="true"/>
+}
+
+<img src="~/imges/left-up.png" alt="" class="patt-left">
+<img src="~/imges/right-up.png" alt="" class="patt-right">
+<!-- Verify -->
+<section class="sgin-up">
+    <div class="contener-verify">
+        <div class="form-verify">
+            <div class="title">Verify Email Address</div>
+            <form asp-action="Verify" method="post">
+                <div>
+                    To verify your email, we've sent a one-time password (OTP) to your email.
+                </div>
+                <div class="input-field-verify">
+                    <label for="otp">OTP</label><br>
+                    <input type="text" name="otp" placeholder="Enter OTP" id="otp" required>
+                </div>
+                  @if (ViewData.ModelState[""]?.Errors.Any() == true)
+                      {
+    <span class="text-danger">@ViewData.ModelState[""].Errors.First().ErrorMessage</span>
+                        }
+                <div class="verify-submit">
+                    <button type="submit" class="submit-v submit1">Verify</button>
+                    <button type="button" class="submit-v submit2">Resend OTP</button>
+                </div>
+            </form>
+        </div>
+        <img class="cup1" src="~/imges/Artboard.png" alt="">
+    </div>
+</section>
+

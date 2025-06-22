@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Product> 
+@{
+    Layout = "_Layout1";
+    ViewData["Title"] = "Product Mangement";
+}
+@section Links{
+         <link rel="stylesheet"href="~/css/productmangment.css" asp-append-version="true"/>
+
+}
+<!--------------------- Products Mangement ------------------------------->
+
+
+<div class="details">
+    <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Products Happines Cafe</h2>
+                        <a asp-controller="ProductMangement" asp-action="New" class="btn btn-light btn-lg btnn">Add New Product</a>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td >Product</td>                     
+                                <td >Category</td>
+                                <td >Craeted Date</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach(var Product in Model)
+                            {
+                              <tr>
+                                <td>@Product.NameProduct</td>
+                                <td>@Product.IdCategoryNavigation.NameCategory</td>
+                                <td>@Product.CreatedDate.ToShortDateString()</td>
+                                <td>
+                                    <a asp-controller="ProductMangement" asp-action="Show" asp-route-id="@Product.IdProduct" class="btn btn-success btn-lg">
+                                        Show
+                                    </a>
+                                    &nbsp;
+                                    <a asp-controller="ProductMangement" asp-action="Edit" asp-route-id="@Product.IdProduct" class="btn btn-warning btn-lg">
+                                         Edit
+                                    </a>
+                                    &nbsp;
+                                    <a asp-controller="ProductMangement" asp-action="Delete" asp-route-id="@Product.IdProduct" class="btn btn-dangerr btn-lg">
+                                         Delete
+                                    </a>
+                                </td>
+                              </tr>
+                            }                                                     
+                        </tbody>
+                    </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

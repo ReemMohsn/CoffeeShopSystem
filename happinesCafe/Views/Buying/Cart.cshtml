@@ -1,0 +1,96 @@
+﻿@model List<Basket>
+
+@section Links{
+    <title>CartPage</title>
+    <link rel="stylesheet" href="~/css/CartPage.css" asp-append-version="true"/>
+}
+
+<!-- introduction ------------------------------------------------------------>
+<div class="subtital">Shopping Cart</div>
+<br>
+
+<!-- headersBar ------------------------------------------------------------------>
+<div class="headersBar">
+    <p class="hd"></p>
+    <p class="hd">Product</p>
+    <p class="hd">Price</p>
+    <p class="hd">Quantity</p>
+    <p class="hd">Total</p>
+</div>
+
+
+<!-- container ------------------------------------------------------------------>
+<div class="listCart">
+    @if (Model != null && Model.Any())
+    {
+       @foreach (var item in Model)
+    {
+        <div class="item" data-id="@item.IdBasket"> 
+             <a asp-controller="Buying" asp-action="RemoveItem" asp-route-basketId=@item.IdBasket>
+               <div><b class="delete">×</b></div>
+             </a>
+            <div class="imge">
+                <img src="~/imges/@Url.Content(@item.IdProductSizeNavigation.IdProductNavigation.Picture)" alt="">
+            </div>
+            <div class="nameconttainer">
+                <div class="name">@item.IdProductSizeNavigation.IdProductNavigation.NameProduct</div>
+                <div class="describtion">
+                    @item.IdProductSizeNavigation.IdSizeNavigation.Name
+                    ,
+                    @foreach (var addon in item.BasketProductAddOns)
+                    {
+                        @addon.IdProductAddOnsNavigation.Name
+                    }
+                </div>
+            </div>
+            <div class="price">@item.TotalPrice</div>
+            <div class="Quantity">
+                 <a asp-controller="Buying" asp-action="UpdateQuantity" asp-route-basketId=@item.IdBasket asp-route-plusOrminus="plus">
+                <span><b class="plus">+</b></span>
+                 </a>
+                 <span>@item.QuantityProduct</span>
+                  <a asp-controller="Buying" asp-action="UpdateQuantity" asp-route-basketId=@item.IdBasket asp-route-plusOrminus="minus">
+                <span><b class="minus">-</b></span>
+                 </a>
+            </div>
+            <div class="tottalprice">@(item.TotalPrice * item.QuantityProduct)</div>
+        </div>
+    }
+    }
+    else
+    {
+        <div class="empty-cart-message">
+            سلة التسوق فارغة
+        </div>
+    }
+    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+    <div class="lastTotal">
+    <div class="Subtotal">Subtotal: $<span>@Model.Sum(i => i.TotalPrice*i.QuantityProduct)</span></div>
+    <div class="Discount">Discount: $<span>0</span></div>
+    <div></div>
+    <div class="Total">Total: $<span>@(Model.Sum(i => i.TotalPrice*i.QuantityProduct)-0)</span></div>
+    @if (Model != null && Model.Any())
+{
+    <a asp-controller="Buying" asp-action="CheckOut" asp-route-totalPrice=@Model.Sum(i => i.TotalPrice*i.QuantityProduct) class="send"><b>Check out</b></a>
+}
+else
+{
+    <a href="#" class="send disabled" style="pointer-events: none; opacity: 0.5;"><b>Check out</b></a>
+}
+</div>
+</div>
+
+
+@section Scripts{
+    <script>
+         const loginErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
+        if (loginErrorMessage) { 
+            alert(loginErrorMessage);
+        } 
+    </script>
+}

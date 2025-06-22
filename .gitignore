@@ -1,0 +1,27 @@
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.cache
+*.userprefs
+
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+appsettings.Development.json  # يحتوي على connection strings محلية
+appsettings.local.json        # إذا كنت تستخدم ملف إضافي للإعدادات المحلية
+__MigrationHistory/           # مجلد migrations المحلي (إذا كنت تستخدم Code First)
+*.mdf                         # ملفات قاعدة بيانات SQL Server المحلية
+*.ldf                         # ملفات log SQL Server
+
+packages/
+.nuget/
+.env                          # إذا كنت تستخدم متغيرات بيئة
+launchSettings.json           # يحتوي على إعدادات محلية للـ debug
+*.log
+*.sqlite
+*.bak
+

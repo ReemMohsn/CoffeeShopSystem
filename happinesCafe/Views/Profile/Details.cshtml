@@ -1,0 +1,70 @@
+﻿@model happinesCafe.Models.User
+
+@section Links{
+     <title>Profile</title>
+     <link rel="stylesheet"href="~/css/profile.css" asp-append-version="true"/>
+} 
+
+
+    <div class="title">Profile</div>
+    <div class="profile-img-container">
+     <div class="profile-container">
+     <img src="~/imges/@Model.PictuerUser" class="profile-img" />
+     </div>   
+     </div>
+
+
+    <hr />
+
+<div class="profile-info-container">
+    <dl class="row">
+        <dt class="col-sm-2 dtt">
+            <img src="~/imges/customer.png" class="icon-img" /> 
+             &nbsp; @Html.DisplayNameFor(model => model.NameUser)
+        </dt>
+        <hr />
+
+        <dd class="col-sm-10 ddd">
+            @Html.DisplayFor(model => model.NameUser)
+        </dd>
+
+        <dt class="col-sm-2 dtt">
+            <img src="~/imges/dharf.png" class="icon-img" />  &nbsp; 
+            @Html.DisplayNameFor(model => model.EmailUser)
+        </dt>
+
+        <hr/>
+        <dd class="col-sm-10 ddd">
+            @Html.DisplayFor(model => model.EmailUser)
+        </dd>
+
+        <dt class="col-sm-2 dtt">
+            <img src="~/imges/10096781.png" class="icon-img" /> 
+             &nbsp;@Html.DisplayNameFor(model => model.CreatdDate)
+        </dt>
+         <hr />
+        <dd class="col-sm-10 ddd">
+            @Html.DisplayFor(model => model.CreatdDate)
+        </dd>
+
+        <dt class="col-sm-2 dtt">
+            <img src="~/imges/10096781.png" class="icon-img" /> 
+             &nbsp;
+@*             @Html.DisplayNameFor(model => model.StatusNavigation.Id)
+*@             Status
+        </dt>
+        <hr />
+        <dd class="col-sm-10 ddd">
+            @Html.DisplayFor(model => model.StatusNavigation.Name)
+        </dd>
+    </dl>
+</div>
+
+<div class="edit-profile">
+    <a asp-action="Edit" asp-route-id="@Model?.IdUser" class="Order-Now">Edit the profile</a>
+</div>
+
+<div class="edit-profile">
+<a asp-action="SignOut" asp-controller="SignInUp" class="Order-Now">Sign Out</a>
+</div>
+

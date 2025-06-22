@@ -1,0 +1,145 @@
+﻿
+/* Styles for the product details section within the dashboard layout */
+.product-details-container {
+    padding: 20px;
+    color: #F2F1F4; /* Consistent text color */
+}
+
+.product-details-title {
+    font-family: 'aldhabi', sans-serif; /* Use dashboard heading font */
+    font-size: 2.4rem;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.product-card {
+    background-color: #723A1F; /* Consistent card background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 30px;
+    margin-bottom: 25px;
+    align-items: flex-start; /* Align image and info to the top */
+}
+
+.product-image-section {
+    flex-shrink: 0; /* Don't allow image section to shrink */
+    max-width: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.product-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.no-picture {
+    display: block;
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    color: #ccc;
+}
+
+.product-info-section {
+    flex-grow: 1; /* Allow info section to take remaining space */
+    text-align: left;
+}
+
+.info-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.info-divider {
+    border-top: 1px solid #F2F1F41a;
+    margin-bottom: 15px;
+}
+
+.info-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+}
+
+.info-label {
+    font-weight: bold;
+    font-size: 1.5rem;
+    min-width: 100px; /* Adjust label width as needed */
+}
+
+.info-value {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+    .info-value.description {
+        white-space: pre-line; /* Preserve line breaks in description */
+    }
+
+.sizes-prices-card {
+    background-color: #723A1F; /* Consistent card background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+    .sizes-prices-card .card-title {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .sizes-prices-card .card-divider {
+        border-top: 1px solid #F2F1F41a;
+        margin-bottom: 15px;
+    }
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .data-table thead th {
+        background-color: #1d120c;
+        color: #F2F1F4;
+        font-size: 1.6rem;
+        padding: 12px;
+        text-align: left;
+    }
+
+    .data-table tbody td {
+        padding: 12px;
+        border-bottom: 1px solid #F2F1F41a;
+        font-size: 1.5rem;
+        text-align: left;
+    }
+
+    .data-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+.actions-section {
+    text-align: left;
+}
+
+/*.edit-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #F2F1F4;*/ /* Primary action color */
+    /*color: #1d120c;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .edit-button:hover {
+        background-color: #1d120c;
+        color: #F2F1F4;
+    }*/

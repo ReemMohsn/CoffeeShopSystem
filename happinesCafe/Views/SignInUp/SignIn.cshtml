@@ -1,0 +1,56 @@
+﻿@*@model User*@
+
+@section Links{
+    <title>Sign In</title>
+    <link rel="stylesheet" href="~/css/sginin.css" asp-append-version="true" />
+}
+
+
+
+<img src="~/imges/left-in.png" alt="" class="pat-left">
+<img src="~/imges/right-in.png" alt="" class="pat-right">
+
+<!-- Sign In Section -->
+<section class="sgin-in">
+    <div class="contener">
+        <div class="form-signup">
+            <div class="title">Welcome back</div>
+            <form asp-action="SignIn" asp-controller="SignInUp" method="post">
+                  @if (ViewData.ModelState[""]?.Errors.Any() == true)
+                {
+                <span class="text-danger">@ViewData.ModelState[""].Errors.First().ErrorMessage</span>
+                }
+                <div class="input-group">
+                    <div class="input-field">
+                        <img src="~/imges/dharf.png" alt="" width="35" height="38">
+                        <input type="email" id="email" name="email" placeholder="Email address" required>
+@*                       <input asp-for="EmailUser" type="email" placeholder="Email address"  required>
+                         <span asp-validation-for="EmailUser" class="text-danger"></span>*@
+                    </div>
+                    <div class="input-field">
+                        <img src="~/imges/3138367.png" alt="" width="37" height="38">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                      @*<input asp-for="PasswordUser" type="password" placeholder="Password" id="password" required>*@
+                      @*<span asp-validation-for="PasswordUser" class="text-danger"></span>*@
+                    </div>
+                    <p class="pra1-in">
+                        Forgot password? <a asp-action="ForgetPassword">Click here</a>
+                    </p>
+                   <div class="submit1-in">
+                        <button type="submit" id="signin-link">Sign In</button>
+                    </div>
+                    <p class="pra2-in">
+                        Don't have an account?
+                    </p>
+                    <div class="submit2-in">
+                        <a asp-action="SignUp">Sign Up</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <img class="cup-in" src="~/imges/344.png" alt="">
+    </div>
+</section>
+
+
+

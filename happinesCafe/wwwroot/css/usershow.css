@@ -1,0 +1,110 @@
+﻿.UserProfileCard {
+    display: flex;
+    justify-content: center; /* توسيط البطاقة أفقياً */
+    align-items: center; /* توسيط البطاقة عمودياً إذا لزم الأمر */
+    min-height: auto; /* يتحدد الارتفاع بالمحتوى */
+    padding: 20px;
+    margin-top: 20px; /* مساحة علوية */
+}
+
+    .UserProfileCard .card {
+        position: relative;
+        background-color: transparent; /* خلفية شفافة */
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 20px 0px rgba(177, 110, 37, 0.98); /* ظل بارز */
+        width: 400px; /* عرض ثابت للبطاقة (يمكن تعديله) */
+        max-width: 90%; /* لضمان التجاوب في الشاشات الصغيرة */
+        text-align: center; /* محاذاة العناصر داخل البطاقة للوسط */
+    }
+
+    /* حاوية الصورة الشخصية */
+    .UserProfileCard .profileImage {
+        position: relative;
+        width: 150px; /* حجم الصورة */
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto 20px; /* توسيط الصورة وإضافة مساحة أسفلها */
+        border: 5px solid rgba(242, 241, 244, 0.3); /* إطار حول الصورة */
+    }
+
+    /* الصورة الشخصية */
+    .UserProfileCard .profileImg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ملء الحاوية مع الحفاظ على الأبعاد */
+    }
+
+    /* تفاصيل الملف الشخصي */
+    .UserProfileCard .profileDetails {
+        color: #F2F1F4; /* لون النص */
+    }
+
+    /* اسم المستخدم */
+    .UserProfileCard .userName {
+        font-size: 2.2rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    /* معلومات المستخدم الأخرى */
+    .UserProfileCard .profileDetails p {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+
+    /* تسميات الحقول (Type, Status, etc.) */
+    .UserProfileCard .profileDetails .label {
+        font-weight: bold;
+        margin-right: 5px;
+        color: rgba(242, 241, 244, 0.8); /* لون أغمق قليلاً للتسمية */
+    }
+
+    /* زر عرض الطلبات */
+    /*.UserProfileCard .showOrdersButton {
+        background-color: #B16E25;*/ /* نفس لون الظل الأساسي */
+        /*color: #F2F1F4;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1.6rem;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+        .UserProfileCard .showOrdersButton:hover {
+            background-color: #965a1d;*/ /* لون أغمق عند التhover */
+        /*}*/
+
+/* ====================== Responsive Design ========================== */
+
+@media (max-width: 600px) {
+    .UserProfileCard .card {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .UserProfileCard .profileImage {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 15px;
+    }
+
+    .UserProfileCard .userName {
+        font-size: 2rem;
+    }
+
+    .UserProfileCard .profileDetails p {
+        font-size: 1.4rem;
+    }
+
+    .UserProfileCard .showOrdersButton {
+        font-size: 1.4rem;
+        padding: 8px 16px;
+    }
+}

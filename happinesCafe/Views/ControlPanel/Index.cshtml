@@ -1,0 +1,168 @@
+﻿@* ~/Views/ControlPanel/Index.cshtml *@
+@model happinesCafe.Models.Admin.DashboardViewModel
+@{
+    Layout = "_Layout1"; // Assuming this layout includes your custom CSS and structure (navigation, main)
+    ViewData["Title"] = "Dashboard";
+}
+
+@* Add classes for potential styling matching your theme *@
+<h2 class="dashboard-title">Dashboard</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+@* Use your custom cardBox structure instead of Bootstrap row/col for layout *@
+<div class="cardBox">
+
+    <!-- Sales Today -->
+    <div class="card"> @* Use your custom card style *@
+        <div>
+            <div class="numbers">@Model.TotalSalesToday.ToString("C")</div>
+            <div class="cardName">Sales Today</div>
+        </div>
+        <div class="iconBx">
+            @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D5.png" alt="Sales Today" class="icon">
+        </div>
+    </div>
+
+    <!-- Sales This Month -->
+    <div class="card">
+        <div>
+            <div class="numbers">@Model.TotalSalesThisMonth.ToString("C")</div>
+            <div class="cardName">Sales This Month</div>
+        </div>
+        <div class="iconBx">
+            @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D1.png" alt="Sales Month" class="icon">
+        </div>
+    </div>
+
+    <!-- New Orders Today -->
+    <div class="card">
+        <div>
+            <div class="numbers">@Model.NewOrdersTodayCount</div>
+            <div class="cardName">New Orders (Today)</div>
+        </div>
+        <div class="iconBx">
+            @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D3.png" alt="New Orders" class="icon">
+        </div>
+    </div>
+
+    <!-- Problematic Orders (Cancelled/Pending) -->
+    <div class="card">
+        <div>
+            <div class="numbers">@Model.ProblematicOrdersCount</div>
+            <div class="cardName">Cancelled/Pending</div>
+        </div>
+        <div class="iconBx">
+             @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D15.png" alt="Problematic Orders" class="icon">
+        </div>
+    </div>
+
+    <!-- Recently Added Products -->
+    <div class="card">
+        <div>
+            <div class="numbers">@Model.RecentProductsCount</div>
+            <div class="cardName">New Products</div> @* Shortened name for space *@
+        </div>
+        <div class="iconBx">
+             @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D11.png" alt="New Products" class="icon">
+        </div>
+    </div>
+
+    <!-- Active Users -->
+    <div class="card">
+        <div>
+            <div class="numbers">@Model.ActiveUsersCount</div>
+            <div class="cardName">Active Users</div>
+        </div>
+        <div class="iconBx">
+             @* Use your image - REPLACE FILENAME AS NEEDED *@
+            <img src="~/imges/D9.png" alt="Active Users" class="icon">
+        </div>
+    </div>
+
+</div> @* End cardBox *@
+
+
+@* Optional: Add specific styles for the dashboard titles if not covered by global styles *@
+<style>
+    /* You can use the fonts defined in your main CSS */
+    .dashboard-title {
+       /* Example: Match your SubHeader style? */
+        text-align: center;
+        font-size: 5rem; /* Adjust as needed */
+        color: #F2F1F4; /* Your light color */
+        font-family: 'BodoniModa_72pt-Regular'; /* Use your header font - ensure 'htl' is defined or use Bodoni/aldhabi */
+        margin-top: 20px; /* Adjust spacing */
+        margin-bottom: 10px;
+        text-transform: capitalize; /* From your global style */
+    }
+
+    .dashboard-subtitle {
+        text-align: center;
+        font-size: 1.5rem; /* Adjust as needed */
+        color: #F2F1F4; /* Your light color */
+        opacity: 0.8;
+        margin-bottom: 20px;
+        font-family: 'aldhabi', sans-serif; /* Use secondary font */
+        text-transform: none; /* Override global capitalize if needed */
+    }
+
+
+      .cardBox {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+  }
+ 
+  
+  .cardBox .card .numbers {
+    position: relative;
+    font-weight: 500;
+    font-size: 2.5rem;
+    color: #F2F1F4;
+  }
+  
+  .cardBox .card .cardName {
+    color: #F2F1F4;
+    font-size: 1.1rem;
+    margin-top: 5px;
+  }
+  
+  .cardBox .card .iconBx {
+    font-size: 3.5rem;
+    color: #F2F1F4;
+  }
+  
+  .cardBox .card .iconBx .icon {
+    width: 50px;
+  }
+    .cardBox .card a:hover {
+       color: #b16e25; /* Example accent color on hover */
+       text-decoration: underline;
+    }
+
+     /* Override Bootstrap alert styles to better match the theme */
+    .alert-danger {
+        background-color: #b16e25; /* Use an accent color */
+        color: #1d120c; /* Dark text */
+        border-color: #723A1F; /* Darker border */
+        border-radius: 10px; /* Match card radius maybe? */
+        font-family: 'aldhabi', sans-serif;
+        font-size: 1.6rem;
+        margin: 10px 20px; /* Match cardBox padding */
+    }
+
+</style>

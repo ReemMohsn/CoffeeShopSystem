@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="~/css/admin.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" >
+    <link rel="icon" href="~/imges/ty.png">
+      @await RenderSectionAsync("Links", required: false)
+
+
+</head>
+<body>
+        <!-- =============== Navigation ================ -->
+    <div class="container">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a asp-controller="." asp-action=".">
+                        <span class="icon">
+                            <img src="~/imges/ty.png" alt="" class="logo">                        
+                            <img src="~/imges/ttt.png" alt="" class="logo">
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="ControlPanel" asp-action="Index">
+                        <span class="icon">
+                            <img src="~/imges/D7.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="OrderMangement" asp-action="Index">
+                        <span class="icon">
+                            <img src="~/imges/H2.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Orders Management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="UserMangment" asp-action="DisplayUsers">
+                        <span class="icon">
+                            <img src="~/imges/D9.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Users Management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="ReviewManagement" asp-action="Index">
+                        <span class="icon">
+                            <img src="~/imges/D20.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Review Management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a asp-controller="ProductMangement" asp-action="DisplayProduct">
+                        <span class="icon">
+                            <img src="~/imges/D3.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Products Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="SignInUp" asp-action="SignOut">
+                        <span class="icon">
+                            <img src="~/imges/D13.png" alt="" class="icons">
+                        </span>
+                        <span class="title">Sign Out</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <img src="~/imges/5.png" alt="" class="icon">
+                </div>
+
+
+                <div class="RightIcons">
+
+                      <div class="user">
+                         <img src="~/imges/4.png" alt="" class="user">
+                     </div>
+                </div>
+            </div>
+        <div >
+            @RenderBody()       
+           </div>
+        </div>
+        
+    </div>
+    
+    <!-- =========== Scripts =========  -->
+    <script src="~/js/Admin.js"></script>
+
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

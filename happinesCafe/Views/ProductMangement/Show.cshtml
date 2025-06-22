@@ -1,0 +1,66 @@
+﻿@model happinesCafe.Models.Product
+@{
+    Layout="_Layout1";
+    ViewData["Title"] = "Product Detiles";
+}
+@section Links{
+        <link rel="stylesheet" href="~/css/showproduct.css">
+        <partial name="_ValidationScriptsPartial" />;
+     
+       
+}
+<div class="product-details-container">
+
+    <div class="product-card">
+        <div class="product-image-section">
+            <img class="product-image" src="~/imges/@Model.Picture" alt="Product Picture" data-bind-if="Picture" data-bind-attr-src="'~/imges/' + Picture">
+       </div>
+
+        <div class="product-info-section">
+            <h4 class="info-title">Product Details</h4>
+            <hr class="info-divider">
+
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value" data-bind="NameProduct">@Model.NameProduct</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Category:</span>
+                <span class="info-value" data-bind="IdCategoryNavigation.NameCategory">@Model.IdCategoryNavigation.NameCategory</span>
+            </div>
+
+            <div class="info-row">
+                <span class="info-label">Description:</span>
+                <p class="info-value description" data-bind="About">@Model.About</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="sizes-prices-card">
+        <h4 class="card-title">Available Sizes and Prices</h4>
+        <hr class="card-divider">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody data-bind-foreach="ProductsSizes">
+                @foreach(var ss in Model.ProductsSizes)
+                {
+                    <tr>
+                    <td data-bind="IdSizeNavigation.Name">@ss.IdSizeNavigation.Name</td>
+                    <td data-bind="Price">@ss.Price</td>
+                </tr>
+                }
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="actions-section">
+        <a asp-action="DisplayProduct" class="btn btn-light btn-lg btnn">Back to List</a>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+﻿
+@model EditProfileViewModel
+
+@section Links {
+    <title>Profile</title>
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true"/>
+} 
+
+<div class="title">Profile</div>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data" >
+       
+    <div class="profile-img-container">
+       <div class="profile-container">
+    <img src="~/@Model.PictuerUser" class="profile-img" id="profileImage" />
+
+    <label for="profileImageInput" class="camera-icon">
+        <img src="~/imges/dslr-camera.png" alt="Upload Image" />
+    </label>
+
+    <input type="file" asp-for="ProfileImage" id="profileImageInput" class="form-control ddd" style="display: none;" />
+    <span asp-validation-for="ProfileImage" class="text-danger"></span>
+     </div>
+     </div>
+
+    <div class="profile-info-container">
+         <div class="form-group">
+        <label class="dtt">
+            <img src="~/imges/customer.png" class="icon-img" />
+            &nbsp;
+            Name
+        </label>
+        <input asp-for="NameUser" class="form-control dddd" />
+        <span asp-validation-for="NameUser" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="dtt">
+            <img src="~/imges/3138367.png" class="icon-img" />
+            &nbsp;
+            Current Password
+        </label>
+        <input type="password" asp-for="CurrentPassword" class="form-control dddd" required />
+        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="dtt">
+            <img src="~/imges/3138367.png" class="icon-img" />
+            &nbsp;
+            New Password
+        </label>
+        <input type="password" asp-for="NewPassword" class="form-control dddd"/>
+        <span asp-validation-for="NewPassword" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="dtt">
+            <img src="~/imges/3138367.png" class="icon-img" />
+            &nbsp;
+            Confirm New Password
+        </label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control dddd" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    </div>
+    <div class="edit-profile">
+        <button type="submit" class="Order-Now save-btn">Save</button>
+        &nbsp;&nbsp;
+        <a asp-action="Details" asp-route-id="@Context.Session.GetInt32("UserId")" class="cancel-btn Order-Now">Cancel</a>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        document.getElementById('profileImageInput').addEventListener('change',
+        function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

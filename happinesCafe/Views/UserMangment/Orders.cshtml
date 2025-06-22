@@ -1,0 +1,42 @@
+﻿@using happinesCafe.Models.Admin
+@model IEnumerable<OrderListViewModel>
+
+@{
+    ViewData["Title"] = "Order Management";
+        Layout = "_Layout1"; // Assuming this layout includes your custom CSS and structure (navigation, main)
+
+}
+@section Links{
+         <link rel="stylesheet"href="~/css/productmangment.css" asp-append-version="true"/>
+}
+<div class="details">
+    <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Orders</h2>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Order ID</td>
+                                <td>Customer Name</td>
+                                <td>Order Date</td>
+                                <td>Total Price</td>
+                                <td>Order Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@order.IdOrder</td>
+                                    <td>@order.CustomerName</td>
+                                    <td>@order.OrderDate.ToShortDateString()</td>
+                                    <td>@order.TotalPrice</td>
+                                    <td>@order.OrderStatus</td>                                  
+                                </tr>
+                            }                                                     
+                        </tbody>
+                    </table>
+    </div>   
+</div>

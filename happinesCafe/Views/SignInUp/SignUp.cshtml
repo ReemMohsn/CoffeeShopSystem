@@ -1,0 +1,86 @@
+﻿@model User
+
+        @section Links{
+    <title>sign Up</title>
+     <link rel="stylesheet"href="~/css/sginin.css" asp-append-version="true"/>
+} 
+
+    <div id="myinterface1">
+    
+        <img src="~/imges/left-up.png" alt="" class="patt-left">
+        <img src="~/imges/right-up.png" alt="" class="patt-right">
+
+    <!-- sgin up -->
+    <section class="sgin-up">
+        <div class="contener">
+            <div class="form-signup">
+                <div class="title">create new account</div>
+                <form asp-action="SignUp" asp-controller="SignInUp" method="post">
+                    <!-- لعرض أخطاء عامة -->
+@if (!ViewData.ModelState.IsValid)
+{    
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <span class="text-danger">@error.ErrorMessage</span>
+        }
+}
+                    <div class="input-group">
+                     <input asp-for="IdUser" type="hidden" >
+                     <input asp-for="Status" type="hidden" value="@Model.Status">
+                     <input asp-for="IdRole" type="hidden" value="@Model.IdRole">
+                     <input asp-for="CreatdDate" type="hidden" value="@Model.CreatdDate">
+                     
+                        <div class="input-field" >
+                            <img src="~/imges/4.png" alt="" width="28" height="33">
+                            <input asp-for="NameUser" type="text" placeholder="full Name"  required>
+                        </div>
+                        <span asp-validation-for="NameUser" class="text-danger"></span>
+                        <div class="input-field">
+                            <img src="~/imges/dharf.png" alt=""width="35" height="38">
+                              <input asp-for="EmailUser" type="email" placeholder="Email address"  required>
+                        </div>
+                         <span asp-validation-for="EmailUser" class="text-danger"></span>
+                        <div class="input-field">
+                            <img src="~/imges/3138367.png" alt=""  width="37" height="38">
+                            <input asp-for="PasswordUser" type="password" placeholder="PasswordUser"  required>
+                        </div>
+                        <span asp-validation-for="PasswordUser" class="text-danger"></span>
+                         <div class="input-field">
+                            <img src="~/imges/3138367.png" alt=""  width="37" height="38">
+                               <input name="CofPW" type="password" placeholder="Confirm Password" required>
+                        </div>
+                      @if (ViewData.ModelState[""]?.Errors.Any() == true)
+                       {
+                      <span class="text-danger">@ViewData.ModelState[""].Errors.First().ErrorMessage</span>
+                        }
+                        <div class="submit1-in submit">
+                        <button type="submit" >Sign up</button>
+                         </div>
+                        <div class="div1">
+                            <div class="divider">
+                                <span class="divider_line"></span>
+                                or
+                                <span class="divider_line"></span>
+                            </div>
+                            <div class="iconss">
+                                <a id="mybuttom1"  href="#"><img src="~/imges/10096781.png" alt="" width="42" height="40" ></a>
+                                
+                                <a href="#"><img src="~/imges/10096939.png" alt="" width="42" height="40"></a>
+                            </div>
+                            <p>
+                                Already Have Account? <a asp-action="SignIn">Sign in!</a>   
+                            </p>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <img class="cup" src="~/imges/Artboard.png" alt="">
+
+        </div>
+
+    </section>
+    
+   
+    </div>
+

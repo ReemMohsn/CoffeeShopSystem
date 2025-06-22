@@ -1,0 +1,130 @@
+﻿/* page content */
+.title {
+    text-align: center;
+    font-size: 5rem;
+    color: #F2F1F4;
+    font-family: htl;
+    margin-top: 6%;
+}
+
+/* تنسيق حاوية الصورة الرئيسية */
+.profile-img-container {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* تعديل تنسيق الصورة الشخصية */
+.profile-container {
+    display: inline-block; /* لجعلها تأخذ مساحة الصورة فقط */
+    position: relative;
+    margin: 0 auto; /* للتأكد من أنها في المنتصف */
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #F2F1F4;
+    box-shadow: 0px 4px 10px rgba(255, 165, 0, 0.6);
+    display: block; /* لإزالة المسافة التحتية للصور */
+}
+
+
+/* تنسيق صورة الكاميرا */
+.camera-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #71381E;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+    .camera-icon img {
+        width: 24px;
+        height: 24px;
+    }
+/* تنسيق الصور */
+.icon-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 8px;
+}
+
+/* صندوق المعلومات */
+.profile-info-container {
+    width: 30%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color:#713920;
+    border-radius: 10px;
+    text-align: left;
+}
+
+
+
+/* تنسيق العناوين والمحتوى */
+ .dtt {
+    font-weight: bold;
+    color: #F2F1F4;
+    display: flex;
+    align-items: center;
+    font-size: 1.9rem;
+}
+
+ .ddd {
+    margin-bottom: 15px;
+    margin-left:25px;
+    margin-top:3px;
+    color: #F2F1F4;
+    font-size: 1.6rem;
+}
+
+.dddd{
+    margin-bottom: 15px;
+    margin-left: 25px;
+    margin-top: 3px;
+    color: #1D120C;
+    font-size: 1.6rem;
+}
+
+
+/* زر تعديل الملف الشخصي */
+.edit-profile {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/*.edit-btn {
+    background-color: #FFA500;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .edit-btn:hover {
+        background-color: #cc8400;
+    }*/
+
+
+ .Order-Now {
+    color: #EFF0F2;
+    background-color: #71381E;
+    font-family: aldhabi;
+    font-size: 3rem;
+    padding: 6px 7%;
+    border-radius: 20px;
+}
+
+ .Order-Now:hover {
+        background-color: #EFF0F2;
+        color: #71381E;
+    }

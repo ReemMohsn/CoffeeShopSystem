@@ -1,0 +1,159 @@
+﻿
+@section Links{
+     <title>Menu</title>
+     <link rel="stylesheet"href="~/css/Menu.css" asp-append-version="true"/>
+} 
+
+<!-- containers of page -------------------------------------------------------------->
+    <div class="title">Menu</div>
+    <!-- قسم الفئة الأولى -->
+<section class="Menu" id="menue">
+    <img src="~/imges/16.png" alt="pattern" class="pattern1">
+    <img src="~/imges/18.png" alt="pattern" class="pattern2">
+    <div class="SubHeader">
+        <h1 style="font-weight: lighter;" id="HotDrinks">Hot Drinks</h1>
+    </div>
+    <div class="ProductsContener">
+        @foreach (var product in ViewBag.Category1Products)
+        {
+        <div class="product">
+                    <a asp-action="ProductDetailsDrinks" asp-route-id="@product.IdProduct">
+                        <img src="~/imges/@Url.Content(product.Picture)" alt="@product.NameProduct" class="productImge">
+                    </a>
+                    <div class="productDetails">
+                        <div class="ProductName">
+                            <p><b>@product.NameProduct</b></p>
+                        </div>
+                        <div class="Evaluate">
+                            <p>@product.AverageRating.ToString("0.0") <img src="~/imges/star.png" alt="star" class="star"></p>
+                        </div>
+                        <div class="details">
+                          <p class="Volume">with out milk</p>
+                        <p class="Volume">Volume 100 ml</p>                        </div>
+                        <div class="PriceAdd">
+            <p class="price1">$@product.MinPrice.ToString("0.00")</p>
+            <a href="#" class="add-to-cart" data-id="@product.IdProduct">
+                <img src="~/imges/add.png" alt="AddIcon" class="AddIcon">
+            </a>
+        </div>
+                    </div>
+                </div>
+        }
+    </div>
+</section>
+
+<!-- قسم الفئة الثانية -->
+<section class="Menu" id="menue">
+    <img src="~/imges/16.png" alt="pattern" class="pattern1">
+    <img src="~/imges/18.png" alt="pattern" class="pattern2">
+    <div class="SubHeader">
+        <h1 style="font-weight: lighter;" id="ColdDrinks">Cold Drinks</h1>
+    </div>
+    <div class="ProductsContener">
+        @foreach (var product in ViewBag.Category2Products)
+        {
+
+            <div class="product"> 
+                <a asp-action="ProductDetailsDrinks" asp-route-id="@product.IdProduct" >
+                    <img src="~/imges/@Url.Content(product.Picture)" alt="productImge" class="productImge">
+                </a>
+                <div class="productDetails">
+                    <div class="ProductName">
+                        <p style="font-weight: bolder;">@product.NameProduct</p>
+                    </div>
+                    <div class="Evaluate">
+                        <p>@product.AverageRating.ToString("0.0") <img src="~/imges/star.png" alt="star" class="star"></p>
+                    </div>
+                    <div class="details">
+                        <p class="Volume">with no suger</p>
+                        <p class="Volume">Volume 100 ml</p>
+                    </div>
+                      <div class="PriceAdd">
+            <p class="price1">$@product.MinPrice.ToString("0.00")</p>
+            <a href="#" class="add-to-cart" data-id="@product.IdProduct">
+                <img src="~/imges/add.png" alt="AddIcon" class="AddIcon">
+            </a>
+        </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- قسم الفئة الثالثة -->
+<section class="Menu" id="menue">
+    <img src="~/imges/16.png" alt="pattern" class="pattern1">
+    <img src="~/imges/18.png" alt="pattern" class="pattern2">
+    <div class="SubHeader">
+        <h1 style="font-weight: lighter;" id="Sweets">Sweets</h1>
+    </div>
+    <div class="ProductsContener">
+        @foreach (var product in ViewBag.Category3Products)
+        {
+            <div class="product"> 
+                <a asp-action="ProductDetailsSweets" asp-route-id="@product.IdProduct">
+                    <img src="~/imges/@Url.Content(product.Picture)" alt="productImge" class="productImge">
+                </a>
+                <div class="productDetails">
+                    <div class="ProductName">
+                        <p style="font-weight: bolder;">@product.NameProduct</p>
+                    </div>
+                    <div class="Evaluate">
+                        <p>@product.AverageRating.ToString("0.0") <img src="~/imges/star.png" alt="star" class="star"></p>
+                    </div>
+                    <div class="details">
+                        <p class="Volume">with out chocolate</p>
+                        <p class="Volume">Volume 100 ml</p>
+                    </div>
+                                          <div class="PriceAdd">
+                  <p class="price1">$@product.MinPrice.ToString("0.00")</p>
+                  <a href="#" class="add-to-cart" data-id="@product.IdProduct">
+                  <img src="~/imges/add.png" alt="AddIcon" class="AddIcon">
+                  </a>
+                  </div>
+                  </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+@section Scripts
+{
+           <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // معالجة النقر على زر الإضافة
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-id');
+                    try {
+                        const response = await fetch('/Products/AddToCartSimple', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `productId=${productId}`
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.success) {
+                                alert(result.message);
+                            } else {
+                                alert(result.error);
+                            }
+                        } else {
+                            alert('A server connection error occurred.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('An error occurred while adding to cart.');
+                    }
+                });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,31 @@
+﻿@model User
+@{
+    Layout = "_Layout1";
+    ViewData["Title"] = "User Detiles";
+}
+@section Links{
+        <link rel="stylesheet" href="~/css/usershow.css">
+       
+}
+
+
+<section class="UserProfileCard" id="userProfileCard">
+    <div class="card">
+        <div class="profileImage">
+            <img src="~/imges/@Model.PictuerUser" alt="@Model.NameUser" class="profileImg">
+        </div>
+        <div class="profileDetails">
+            <h2 class="userName">@Model.NameUser</h2>
+            <p class="userRole"><span class="label">Type:</span> @Model.IdRoleNavigation.NameRole</p>
+            <p class="userStatus"><span class="label">Status:</span> @Model.StatusNavigation.Name</p>
+            <p class="userEmail"><span class="label">Email:</span> @Model.EmailUser</p>
+            <p class="userPassword"><span class="label">Password:</span> @Model.PasswordUser</p>
+            <p class="createdDate"><span class="label">Created Date:</span> @Model.CreatdDate.ToShortDateString()</p>
+            <form>
+                  <input type="submit" asp-action="Orders" asp-route-id="@Model.IdUser" value="Show Orders" class="btn btn-light btn-lg btnn" >
+                  <a asp-controller="UserMangment" asp-action="DisplayUsers" class="btn btn-light btn-lg btnn" >Back TO List</a>
+            </form>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<User> 
+@{
+    Layout = "_Layout1";
+    ViewBag.title = "Product Mangement";
+}
+@section Links{
+         <link rel="stylesheet"href="~/css/productmangment.css" asp-append-version="true"/>
+    
+    
+}
+<!--------------------- Products Mangement ------------------------------->
+
+
+<div class="details">
+    <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>Users Happines Cafe</h2>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td >Profile</td>
+                                <td >User</td>
+                                <td >Email</td>
+                                <td>Created Date</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var user in Model)
+                            {
+                              <tr>                                
+                                <td >   
+                                    <div class="immgcun"><img src="~/imges/@user.PictuerUser" alt="User pictuer" class="immm" /></div>
+                                </td>
+                                <td>@user.NameUser</td>
+                                <td>@user.EmailUser</td>
+                                <td>@user.CreatdDate.ToShortDateString()</td>
+                                <td>
+                                    <a asp-controller="UserMangment" asp-action="Show" asp-route-id="@user.IdUser" class="btn btn-success btn-lg">
+                                        Show
+                                    </a>                    
+                                </td>
+                              </tr>
+                            }                                                     
+                        </tbody>
+                    </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

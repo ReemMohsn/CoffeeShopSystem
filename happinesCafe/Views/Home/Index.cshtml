@@ -1,0 +1,341 @@
+﻿@using System.Globalization
+
+@section Links{
+    <title>Happiness cafe</title>
+    <link rel="stylesheet"href="~/css/main.css" asp-append-version="true"/>
+} 
+
+    <!-- Home--------------------------------------------------------- -->
+    <section class="home" id="home">
+    <div class="content">
+        <div class="bigtital">Coffee</div>
+        <p class="describtion-bigtital">It is best to start your day with a cup of coffee.
+            Discover the best flavors coffee you will ever have.
+            We provide the best for our customers.</p>
+        <a href="" class="Order-Now">Order Now</a>
+    </div>
+    </section>
+
+
+ <!-- About us ------------------------------------------------------->
+<section class="Strenght" id="Strenght">
+    <img src="~/imges/14.png" alt="" class="patern1 big">
+    <img src="~/imges/16.png" alt="" class="patern1 small ">
+    <img src="~/imges/17.png" alt="" class="patern2  big">
+    <img src="~/imges/18.png" alt="" class="patern2 small">
+    <div class="SubHeader">Our Strength</div>
+    <div class="fetures">
+        <div class="feturr">
+            <div class="fetur">
+                <img src="~/imges/8.png" alt="" class="ImgFetur">
+                <p class="description">   <span class="tital">Best Beans</span><br>Lorem ipsum, dolor
+                    reem ut yui to sit amet consectetur
+                    adipisicing elit.</p>
+            </div>
+        </div>
+        <div class="feturr"><div class="fetur">
+            <img src="~/imges/9.png" alt="" class="ImgFetur">
+            <p class="description"><span class="tital">High Quality</span><br>Lorem ipsum, dolor
+                reem ut yui to sit amet consectetur
+                adipisicing elit.</p>
+        </div>
+    </div>
+        <div class="feturr"><div class="fetur">
+            <img src="~/imges/10.png" alt="" class="ImgFetur">
+         
+            <p class="description">   <span class="tital">Perfect Made</span><br>Lorem ipsum, dolor
+               reem ut yui to sit amet consectetur
+                adipisicing elit.</p>
+        </div></div>
+        <div class="feturr"><div class="fetur">
+            <img src="~/imges/Untitled-1.png" alt="" class="ImgFetur">
+         
+            <p class="description">   <span class="tital">Free Delivery</span><br>Lorem ipsum, dolor
+               reem ut yui to sit amet consectetur
+                adipisicing elit.</p>
+        </div></div>
+    </div>
+    
+</section>
+<section class="About">
+    <div class="AboutUs">
+        <div class="SubHeader">About us</div>
+        <div class="describtion-bigtital">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi eum voluptate libero minima.
+            Assumenda ratione minus voluptatum architecto quam obcaecati sunt neque pariatur quibusdam accusamus eum,
+             laborum ipsa ex rerum. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi eum voluptate libero minima
+            Assumenda ratione minus voluptatum architecto quam obcaecati sunt neque pariatur quibusdam accusamus eum.</div>
+    </div>
+</section>
+
+
+
+
+<!-- Menu------------------------------------------------------------------ -->
+
+<section class="menu "  id="Menu">
+    <div class="titalContener">
+        <div class="SubHeader">Menu</div>
+        <h4 class="tital1 tiata">We Offer three Categories</h4>
+        <div class="describtionMenu describtion-bigtital">Lorem  dolores corporis reprehenderit repudiandae soluta impedit dolorem explicabo, adipisci incidunt. Deleniti ipsa nesciunt natus in</div>           
+    </div>
+    <div class="itemsContener">
+
+
+        <div class="it item1 tiata">
+            <div  class="hover:shine  ImgMenuContainer">
+                <img src="~/imges/20.png" alt="" class=" ImgMenu">
+                </div>
+             <h4 class="tital1">Hot Drinks</h4>
+             <a asp-controller="Products" asp-action="Menu" asp-fragment="HotDrinks"  class="MenuBotum">View Menu</a>
+    </div>
+    <div class="it item2 ">
+      <div href="#" class="hover:shine  ImgMenuContainer">
+          <img src="~/imges/q.png"  alt="" class=" ImgMenu">
+          </div>
+       <h4 class="tital1 tiata">Cold Drinks</h4>
+       <a asp-controller="Products" asp-action="Menu" asp-fragment="ColdDrinks" class="MenuBotum">View Menu</a>
+</div>
+<div class="item1 it ">
+<div href="#" class="hover:shine ImgMenuContainer">
+    <img src="~/imges/21.png"  alt=""
+      class="ImgMenu">
+    </div>
+ <h4 class="tital1 tiata" >Sweets</h4>
+ <a asp-controller="Products" asp-action="Menu" asp-fragment="Sweets" class="MenuBotum">View Menu</a>
+</div>
+    </div>
+  </section>
+
+
+
+  <!--products --------------------------------------------------------- -->
+<section class="Products" id="products">
+    <img src="~/imges/38.png" alt="" class="patern5 ProductPatern">
+    <img src="~/imges/39.png" alt="" class="patern6 ProductPatern">
+    <img src="~/imges/40.png" alt="" class="patern7 ProductPatern">
+    <img src="~/imges/41.png" alt="" class="patern8 ProductPatern">
+    <div class="SubHeader ">Products</div>
+    <div class="ProductsContener">
+        @foreach (var product in ViewBag.Products)
+        {
+        <div class="product">
+            <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.IdProduct">
+                <img src="~/imges/@Url.Content(product.Picture)" alt="productImge" class="productImge">
+            </a>
+            <div class="ProductName tital1 tiata"><b>@product.NameProduct</b></div>
+            <div class="evaluate">
+                <img src="~/imges/star.png" alt="" class="star">
+                   @product.AverageRating.ToString("0.0") 
+            </div>
+            <div class="PriceAdd" data-id="@product.IdProduct">
+                <p class="Volume">
+                    <span class="Volume2">Volume: 500g </span>
+                    <span class="price1">
+                       @product.MinPrice.ToString("C", CultureInfo.GetCultureInfo("en-US"))
+                    </span>
+                </p>
+         <a href="#" class="add-to-cart" data-id="@product.IdProduct">
+                <img src="~/imges/add.png" alt="AddIcon" class="AddIcon">
+            </a>            </div>
+        </div>
+        }
+    </div>
+
+</section>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+     <!-- productsadition ---------------------------------------------- -->
+<section class="productsadition">
+<div class="part2">
+    <div class="part1">
+        <div class="subtital">Check Out Our
+            Best Coffee Beans</div>
+      <a asp-controller="Products" asp-action="Products"> <div class="Explore">Explore our products
+        <img src="~/imges/47.png" alt="" class="sahem1 ">
+     </div>   </a>  
+    </div>
+    <img src="~/imges/46.png" alt="" class="sahem2">
+    <div class="tagrabh"></div>
+    <img src="~/imges/45.png" alt="" class="coffeebag">   
+    <img src="~/imges/48.png" alt="" class="productBackground">
+</div>
+   
+</section>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- Review -------------------------------------------------------------------->
+<section class="Review" id="Review">
+    <div class="SubHeader">Review</div>
+    <div class="boxcontainer">
+         @foreach (var review in ViewBag.Reviews)
+        {
+
+          <div class="box">
+          <img src="@(!string.IsNullOrEmpty(review.UserImage) ? $"/imges/{review.UserImage}" : "/imges/customer.png")"
+            alt="@review.UserName"
+              class="person" />          
+                <img src="~/imges/66.png" alt="" class="quotation-marks">
+                <p>@review.ReviewText</p>
+                <h4 class="tital tital1">@review.UserName</h4>
+                <small>@review.ReviewDate?.ToString("yyyy-MM-dd")</small>
+                <div class="evaluationn">
+                @for (int i = 1; i <= review.Rating; i++)
+                {
+                  <img src="~/imges/star2.png" class="starr" alt="star">
+                }               
+                </div>
+            </div>
+        }
+       
+    </div>
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+     <!--Add Review -------------------------------------------------------------------->
+@model Review
+<section class="str" id="contact">
+    
+<div class="form-wrapper">
+  
+    <h4 class="tital1">Add Review</h4>
+
+ <form asp-action="CreateComment" method="post" id="Formaddreview">
+    <div class="box">
+        <select asp-for="IdProduct" id="IdProduct" name="ProductId" class="form-control">
+            <option value="">Select product</option>
+            @foreach (var product in ViewBag.productss)
+            {
+                <option value="@product.IdProduct">@product.NameProduct</option>
+            }
+        </select>
+    </div>
+
+    <div class="box">
+
+        <input type="text" asp-for="Reviewtext" id="Reviewtext" name="Reviewtext" class="form-control" rows="2" placeholder="plaes enter your review">
+    </div>
+
+    <div class="box">
+        <select asp-for="Rating" id="Rating" name="Rating" class="form-control" >
+            <option value="">Select Rating</option>
+            @for (int i = 1; i <= 5; i++)
+            {
+
+
+                <option value="@i">@i</option>
+            }
+        </select>       
+    </div>
+    <div class="box">
+           <button type="submit" >Send Revie</button>
+    </div>
+    
+ </form>
+        
+
+</div>
+
+    
+</section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- contactus  -------------------------------------------------------------->
+ <section class="contact" id="contact">
+    <div class="SubHeader">Contact us</div>
+    <div class="row">
+        <div class="LeftSide">
+            <img src="~/imges/location.png" alt="" class="locationIgon">
+            <p>Yemen, Muklla, Steen Street</p>
+            <iframe class="map" alt="you need the internet to see the map" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7877815.8125828095!2d48.0895!3d15.3986888!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15ea270fd9b64bd9%3A0x79a1fa785d828d6!2z2KrZiiDYs9mKINmD2KfZgdmK2YcgfCBUQyBjYWZl!5e0!3m2!1sar!2s!4v1713446754703!5m2!1sar!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" ></iframe>
+        </div>
+        <form asp-action="SendEmail" method="post" id="FormContactus">
+            <h4 class="tital1">Get In Touch</h4>
+            <div class="inputbox">
+                <img src="~/imges/71.png" alt="">
+                <input type="email" placeholder="email" required id="email" name="email">
+            </div>
+            <div class="inputbox">
+                <img src="~/imges/71.png" alt="">
+                <input type="text" placeholder="message" required id="message" name="message">
+                
+            </div>
+            <input type="submit" value="contact now" class="submit">
+        </form>
+    </div>
+    
+</section>  
+ @section Scripts
+{
+    <script>
+          document.addEventListener('DOMContentLoaded', function() {
+
+            // معالجة النقر على زر الإضافة
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-id');
+                    
+                    try {
+                        const response = await fetch('/Products/AddToCartSimple', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `productId=${productId}`
+                        });
+                        
+                        if (response.ok) {
+                            const result = await response.json();
+                            if (result.success) {
+                                alert(result.message);
+                            } else {
+                                alert(result.error);
+                            }
+                        }else {
+                            alert('حدث خطأ في الاتصال بالخادم');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('حدث خطأ أثناء الإضافة إلى السلة');
+                    }
+                });
+            });
+        });
+         const successMessage = @Html.Raw(Json.Serialize(TempData["SuccessMessage"]));
+        if (successMessage) { 
+            alert(successMessage);
+        }
+    </script>
+        <script src="~/js/scrollreveal.min.js" asp-append-version="true" ></script>
+
+}
+

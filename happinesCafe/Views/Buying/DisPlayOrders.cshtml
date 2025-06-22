@@ -1,0 +1,216 @@
+﻿@using System.Globalization
+@model IEnumerable<Order>
+
+@section Links{
+    <title>Orders</title>
+    <link rel="stylesheet" href="~/css/CartPage.css" asp-append-version="true"/>
+    <style>
+            .filter-container {
+        padding: 20px;
+        margin-bottom: 30px;
+        /* Reuse card styles from your main CSS if applicable */
+        background-color: #723A1F; /* Example: Match nav color? */
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7);
+    }
+
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end; /* Align items nicely */
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Allow inputs to grow */
+        min-width: 150px; /* Minimum width for inputs */
+    }
+
+    .filter-group label {
+        color: #F2F1F4;
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+        font-family: 'aldhabi', sans-serif;
+    }
+
+    .filter-input, .filter-select {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #b16e25;
+        background-color: #1d120c; /* Dark background */
+        color: #F2F1F4; /* Light text */
+        font-size: 1.4rem;
+        outline: none;
+        width: 100%; /* Make inputs fill the group */
+    }
+
+    .filter-button {
+        padding: 10px 20px;
+        background-color: #b16e25; /* Accent color */
+        color: #1d120c; /* Dark text */
+        border: none;
+        border-radius: 20px;
+        font-size: 1.6rem;
+        font-family: 'aldhabi', sans-serif;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        align-self: flex-end; /* Align button with bottom of inputs */
+        height: 40px; /* Match input height approx */
+        line-height: 1;
+    }
+
+    .filter-button:hover {
+        background-color: #F2F1F4; /* Light background on hover */
+    }
+        /* زيادة حجم الخطوط */
+        .recentOrders table {
+            font-size: 1.8rem; /* زيادة حجم الخط الأساسي */
+            width: 100%;
+        }
+        
+        .recentOrders table th {
+            font-size: 2rem; /* زيادة حجم عناوين الأعمدة */
+            padding: 18px 12px; /* زيادة المساحة الداخلية */
+            background-color: #723A1F;
+            color: #F2F1F4;
+        }
+        
+        .recentOrders table td {
+            font-size: 1.8rem; /* زيادة حجم بيانات الجدول */
+            padding: 15px 10px; /* زيادة المساحة الداخلية */
+            color: #F2F1F4;
+        }
+        
+        /* تنسيق التاريخ والسعر باللغة الإنجليزية */
+        .english-format {
+            font-family: Arial, sans-serif;
+            direction: ltr;
+            text-align: right;
+        }
+        
+        /* تحسين مظهر الجدول */
+        .recentOrders table {
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .recentOrders table tr {
+            border-bottom: 1px solid #723A1F;
+        }
+        
+        .recentOrders table tr:hover {
+            background-color: rgba(242, 241, 244, 0.1);
+        }
+            /* Style the action button */
+    .action-button {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-family: 'aldhabi', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .view-button {
+        background-color: #b16e25; /* Accent color */
+        color: #1d120c; /* Dark text */
+    }
+
+    .view-button:hover {
+        background-color: #F2F1F4;
+        color: #1d120c;
+        transform: scale(1.05);
+    }
+
+    </style>
+}
+
+<div class="order-management-container">
+    <br />
+    <div class="subtital">Orders</div>
+    
+    <div class="filter-container card">
+ <form asp-action="DisPlayOrders" method="get" class="filter-form">
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter" name="statusFilter" class="filter-select">
+                <option value="">All</option>
+                    @foreach (var status in (List<string>)ViewBag.AvailableStatuses)
+                    {
+                        if (status == ViewBag.StatusFilter)
+                        {
+                            <option value="@status" selected>@status</option>
+                        }
+                        else
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="dateFilter">Date:</label>
+                <input type="date" id="dateFilter" name="dateFilter" value="@ViewBag.DateFilter" class="filter-input" />
+            </div>
+            <div class="filter-group">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" name="searchFilter" value="@ViewBag.SearchFilter" placeholder="Order ID " class="filter-input" />
+            </div>
+            <button type="submit" class="filter-button">Filter</button>
+        </form>   
+    </div>
+
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2 style="color: #F2F1F4;">Order List</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Date</th>
+                    <th>Total Price</th>
+                    <th>Shipping Address</th>
+                    <th>City</th>
+                    <th>Contact Phone</th>
+                    <th>Order Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="english-format">@order.OrderDate.ToString("dd MMM yyyy", CultureInfo.InvariantCulture)</td>
+                            <td class="english-format">$@order.TotalePrice</td>
+                            <td>@order.ShippingAddress</td>
+                            <td>@order.City</td>
+                            <td>@order.ContactPhone</td>
+                            <td>@order.IdStateNavigation?.NameState</td>
+                            <td>
+                                <a asp-action="OrderDetails" asp-route-idorder=@order.IdOrder class="action-button view-button">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="no-data">No orders found matching your criteria.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/main.js"></script>
+}

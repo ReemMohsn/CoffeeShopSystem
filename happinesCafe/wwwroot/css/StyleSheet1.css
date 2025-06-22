@@ -1,0 +1,158 @@
+﻿
+/* ===================== Add Product Form Styles ===================== */
+
+/* Wrapper for the form content */
+.form-wrapper {
+    /* Match padding and potential background/shadow of dashboard sections */
+    padding: 20px;
+    margin: 20px; /* Add margin to separate from other elements */
+    border-radius: 20px; /* Match card/table border radius */
+    box-shadow: 0px 2px 12px 0px rgba(177, 110, 37, 0.98); /* Match dashboard shadow */
+    background: rgb(29, 18, 12); /* Match dashboard background */
+    color: #F2F1F4; /* Default text color */
+}
+
+    /* Style for the main form title */
+    .form-wrapper .tital1 {
+        font-family: 'BodoniModa_72pt-Regular', serif; /* Match dashboard header font */
+        color: #F2F1F4; /* Match dashboard header color */
+        font-size: 2.2rem; /* Adjust size as needed */
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    /* Horizontal rule styling */
+    .form-wrapper hr {
+        border: none;
+        height: 1px;
+        background-color: rgba(242, 241, 244, 0.2); /* Light border based on text color */
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+
+    /* Spacing for form groups */
+    .form-wrapper .box {
+        margin-bottom: 20px; /* Add space between form elements/groups */
+    }
+
+    /* Form label styling */
+    .form-wrapper label.control-label {
+        display: block; /* Ensure label is on its own line */
+        margin-bottom: 8px;
+        font-size: 1.8rem; /* Consistent font size */
+        font-weight: 500;
+        color: #F2F1F4; /* Light text color */
+    }
+
+    /* General styling for form inputs, selects, textareas */
+    .form-wrapper .form-control {
+        width: 100%;
+        height: 40px;
+        padding: 8px 15px; /* Adjust padding */
+        font-size: 1.6rem; /* Consistent font size */
+        color: #F2F1F4; /* Light text color */
+        background-color: rgba(114, 58, 31, 0.3); /* Slightly transparent brown background */
+        border: 1px solid #723A1F; /* Brown border */
+        border-radius: 10px; /* Slightly rounded corners */
+        box-sizing: border-box; /* Include padding and border in element's total width/height */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    }
+
+    /* Specific height for textarea */
+    .form-wrapper textarea.form-control {
+        height: auto; /* Allow textarea to grow */
+        min-height: 100px; /* Set a minimum height */
+        resize: vertical; /* Allow vertical resizing */
+    }
+
+    /* Focus state for form controls */
+    .form-wrapper .form-control:focus {
+        border-color: #F2F1F4; /* Highlight border on focus */
+        box-shadow: 0 0 5px rgba(242, 241, 244, 0.3); /* Subtle glow on focus */
+        outline: none; /* Remove default outline */
+    }
+
+    /* Placeholder text color */
+    .form-wrapper .form-control::placeholder {
+        color: rgba(242, 241, 244, 0.6); /* Lighter placeholder text */
+    }
+
+    /* Style for file input - basic, browser differences apply */
+    .form-wrapper input[type="file"].form-control {
+        padding: 5px; /* Adjust padding for file input */
+        background-color: transparent; /* Make background transparent */
+        border: none; /* Remove border if desired, or style differently */
+    }
+    /* You might need more specific selectors or JS for better file input styling */
+
+    /* Image preview styling */
+    .form-wrapper img#myImg {
+        display: block; /* Make image a block element */
+        margin-top: 10px;
+        max-width: 200px; /* Ensure image doesn't overflow */
+        height: auto;
+        border-radius: 10px; /* Match input border-radius */
+        border: 1px solid #723A1F; /* Add a border */
+    }
+
+    /* Subheading for Sizes/Prices */
+    .form-wrapper h4 {
+        font-family: 'BodoniModa_72pt-Regular', serif; /* Optional: Use header font */
+        color: #F2F1F4;
+        font-size: 1.8rem;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    /* Styling for the submit button */
+/*    .form-wrapper button[type="submit"] {
+         Match .btn style from dashboard 
+        padding: 10px 20px;
+        background: #F2F1F4;  Light background 
+        color: #1d120c;  Dark text 
+        border: none;
+        border-radius: 6px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        text-transform: capitalize;  Match global style 
+    }
+
+         Hover effect for the submit button 
+        .form-wrapper button[type="submit"]:hover {
+            background: #dcdcdc;  Slightly darker hover 
+            color: #000;
+        }*/
+
+    /* Validation message styling */
+    .form-wrapper .text-danger {
+        color: #f00; /* Red color for errors, matching .status.return */
+        font-size: 1.2rem;
+        display: block; /* Ensure it appears on its own line */
+        margin-top: 5px;
+    }
+
+/* Responsive adjustments if needed (example) */
+@media (max-width: 768px) {
+    .form-wrapper {
+        margin: 10px;
+        padding: 15px;
+    }
+
+        .form-wrapper .tital1 {
+            font-size: 2rem;
+        }
+
+        .form-wrapper label.control-label,
+        .form-wrapper .form-control {
+            font-size: 1.4rem;
+        }
+
+        .form-wrapper button[type="submit"] {
+            width: 100%; /* Make button full width on smaller screens */
+            padding: 12px;
+        }
+}
+

@@ -1,0 +1,256 @@
+﻿@* ~/Views/OrderMangement/Index.cshtml *@
+@model IEnumerable<happinesCafe.Models.Admin.OrderListViewModel>
+
+@{
+    ViewData["Title"] = "Order Management";
+    Layout = "_Layout1"; // Ensure this includes your main CSS and structure (nav, main)
+}
+
+@* Main Content Area for Order Management *@
+<div class="order-management-container"> @* Custom container for spacing/styling *@
+
+    @* Using your title style from previous example *@
+    <h1 class="dashboard-title" style= "color: #F2F1F4";>Order Management</h1>
+
+    @* Filter Section - Style this container and its elements *@
+    <div class="filter-container card"> @* Reuse card style for background/border? *@
+        <form asp-action="Index" method="get" class="filter-form">
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter" name="statusFilter" class="filter-select">
+                    <option value="">All</option>
+                    @* CORRECTED LOOP FOR STATUS DROPDOWN *@
+                    @foreach (var status in (List<string>)ViewBag.AvailableStatuses)
+                    {
+                        if (status == ViewBag.StatusFilter)
+                        {
+                            <option value="@status" selected>@status</option>
+                        }
+                        else
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="dateFilter">Date:</label>
+                <input type="date" id="dateFilter" name="dateFilter" value="@ViewBag.DateFilter" class="filter-input" />
+            </div>
+            <div class="filter-group">
+                <label for="searchFilter">Search:</label>
+                <input type="text" id="searchFilter" name="searchFilter" value="@ViewBag.SearchFilter" placeholder="Order ID or Customer" class="filter-input" />
+            </div>
+            <button type="submit" class="filter-button">Filter</button> @* Style this button *@
+        </form>
+    </div>
+
+
+    @* Orders Table - Using your recentOrders style *@
+    <div class="recentOrders"> @* Your CSS targets this class for table container styling *@
+        <div class="cardHeader"> @* Your CSS targets this *@
+            <h2 style= "color: #F2F1F4";>Order List</h2>
+        </div>
+        <table> @* Your CSS targets table, thead, tbody, tr, td *@
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Order Date</th>
+                    <th>Total Price</th>
+                    <th>Order Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.IdOrder</td>
+                            <td>@order.CustomerName</td>
+                            <td>@order.OrderDate.ToString("dd MMM yyyy")</td> @* Slightly different date format *@
+                            <td>@order.TotalPrice.ToString("C")</td>
+                            <td>@order.OrderStatus</td>
+                            <td>
+                                @* Style this link like a button *@
+                                <a asp-action="OrderDetails" asp-route-id="@order.IdOrder" class="action-button view-button">
+                                    View
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        @* Adjust colspan if number of columns changes *@
+                        <td colspan="6" class="no-data">No orders found matching your criteria.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div> @* End order-management-container *@
+
+
+@* Add Specific Styles for Order Management Index *@
+@* Ideally, move these to your main CSS file *@
+<style>
+    .order-management-container {
+        padding: 20px; /* Add some padding */
+    }
+
+    /* Style the filter section */
+    .filter-container {
+        padding: 20px;
+        margin-bottom: 30px;
+        /* Reuse card styles from your main CSS if applicable */
+        background-color: #723A1F; /* Example: Match nav color? */
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(177, 110, 37, 0.7);
+    }
+
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: flex-end; /* Align items nicely */
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Allow inputs to grow */
+        min-width: 150px; /* Minimum width for inputs */
+    }
+
+    .filter-group label {
+        color: #F2F1F4;
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+        font-family: 'aldhabi', sans-serif;
+    }
+
+    .filter-input, .filter-select {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #b16e25;
+        background-color: #1d120c; /* Dark background */
+        color: #F2F1F4; /* Light text */
+        font-size: 1.4rem;
+        outline: none;
+        width: 100%; /* Make inputs fill the group */
+    }
+
+    .filter-button {
+        padding: 10px 20px;
+        background-color: #b16e25; /* Accent color */
+        color: #1d120c; /* Dark text */
+        border: none;
+        border-radius: 20px;
+        font-size: 1.6rem;
+        font-family: 'aldhabi', sans-serif;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        align-self: flex-end; /* Align button with bottom of inputs */
+        height: 40px; /* Match input height approx */
+        line-height: 1;
+    }
+
+    .filter-button:hover {
+        background-color: #F2F1F4; /* Light background on hover */
+    }
+
+    /* Style the table within recentOrders based on your main CSS */
+    .recentOrders table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    .recentOrders table thead tr {
+        color: #F2F1F4; /* Light header text */
+        background-color: #723A1F; /* Header background */
+        font-size: 1.4rem; /* Adjust font size */
+        font-family: 'BodoniModa_72pt-Regular', serif; /* Header font */
+        /* text-align: left; */ /* Ensure header alignment */
+    }
+
+     .recentOrders table th {
+        padding: 12px 10px;
+        border-bottom: 2px solid #b16e25; /* Accent border */
+     }
+
+    .recentOrders table tbody tr {
+        color: #F2F1F4; /* Light body text */
+        border-bottom: 1px solid #723A1F; /* Separator line */
+    }
+     /* Apply styles from your main CSS for hover */
+    .recentOrders table tbody tr:hover {
+        background-color: #F2F1F4;
+        color: #1d120c; /* Dark text on hover */
+    }
+
+    .recentOrders table td {
+        padding: 12px 10px;
+        font-size: 1.4rem;
+         font-family: 'aldhabi', sans-serif;
+    }
+
+    .no-data {
+         text-align: center;
+         font-style: italic;
+         opacity: 0.7;
+         padding: 20px;
+     }
+
+    /* Style the action button */
+    .action-button {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 15px;
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-family: 'aldhabi', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .view-button {
+        background-color: #b16e25; /* Accent color */
+        color: #1d120c; /* Dark text */
+    }
+
+    .view-button:hover {
+        background-color: #F2F1F4;
+        color: #1d120c;
+        transform: scale(1.05);
+    }
+
+    /* Reuse alert styles from dashboard or define here */
+     .alert {
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        font-size: 1.6rem;
+        font-family: 'aldhabi', sans-serif;
+     }
+     .alert-danger {
+        background-color: #b16e25; /* Use an accent color */
+        color: #1d120c; /* Dark text */
+        border: 1px solid #723A1F;
+    }
+     .alert-success {
+        background-color: #4CAF50; /* A green color */
+        color: #F2F1F4; /* Light text */
+        border: 1px solid #388E3C;
+     }
+</style>
+
+<!-- Ensure ionicons scripts are loaded (move to _Layout1 if possible) -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+

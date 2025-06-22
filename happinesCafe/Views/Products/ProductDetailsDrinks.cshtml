@@ -1,0 +1,395 @@
+﻿@using System.Linq;
+@* Inject Antiforgery service to generate the token *@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
+
+@{
+    // Generate Antiforgery token for the form/JS
+    var requestToken = Antiforgery.GetAndStoreTokens(Context).RequestToken;
+}
+
+@section Links{
+    <title>@ViewBag.Product.NameProduct</title>
+    <link rel="stylesheet" href="~/css/Product Details.css">
+    <style>
+        .choice-input { opacity: 0; position: absolute; }
+        .choice { display: inline-block; padding: 10px 15px; margin: 5px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; }
+        .choice-input:checked + .choice { background-color: #f0f0f0; border-color: #333; }
+    </style>
+}
+
+@* Add the hidden input field to store the token *@
+<input type="hidden" id="RequestVerificationToken" name="__RequestVerificationToken" value="@requestToken" />
+
+<section class="ProductDetails" id="productDetails">
+    <div class="">
+        <img src="~/imges/Pattern.png" alt="pattern" class="pattern1">
+        <img src="~/imges/Pattern rec.png" alt="pattern" class="pattern2">
+        <img src="~/imges/@Url.Content(ViewBag.Product.Picture)" alt="@ViewBag.Product.NameProduct" class="productImge">
+    </div>
+    <div class="Details">
+        <div class="ProductName">
+            <p style="font-weight: lighter;">@ViewBag.Product.NameProduct</p>
+            @* Heart icon - initial state set by JS *@
+            <img src="@Url.Content("~/imges/123.png")" alt="Favorite Status" class="haret favorite-icon"
+                 data-id="@ViewBag.Product.IdProduct"
+                 data-is-favorite="false"
+                 style="cursor:pointer;" @* Add pointer cursor *@
+                 title="Add to Favorites"> @* Add initial title *@
+        </div>
+
+        <div class="Evaluate">
+            <p><img src="~/imges/star.png" alt="star" class="star">
+               @ViewBag.Product.AverageRating.ToString("0.0")
+            </p>
+        </div>
+        <div class="description">
+            <p class="subtital">About</p>
+            <p class="AboutDescription">@ViewBag.Product.About</p>
+        </div>
+
+        <form asp-controller="Products" asp-action="AddDrinkesToBasket" method="post">
+            <input type="hidden" name="productId" value="@ViewBag.Product.IdProduct"/>
+            <div class="OrderDetails">
+                <div class="Order">
+                    <p class="subtital">Sizes</p>
+                    <div class="row">
+                        @if (ViewBag.Product.Prices != null && ViewBag.Product.Prices.Count > 0)
+                        {
+                            @foreach (var size in ViewBag.Product.Prices)
+                            {
+                                <input type="radio" name="sizeId" id="size_@size.Key" class="choice-input" value="@size.Key" data-price="@size.Value" required/> @* Added required for validation *@
+                                <label for="size_@size.Key" class="choice">
+                                    @(size.Key == 1 ? "S" : size.Key == 2 ? "M" : size.Key == 3 ? "L" : "Unknown size")
+                                    - $@size.Value.ToString("0.00")
+                                </label>
+                            }
+                        }
+                        else { <p>No sizes available for this product.</p> }
+                    </div>
+                </div>
+                <hr />
+                <div class="Order">
+                    <p class="subtital">Suger (optional)</p>
+                    <div class="row">
+                         @if (ViewBag.Suger != null && ViewBag.Suger.Count > 0)
+                         {
+                             @foreach (var suger in ViewBag.Suger)
+                             {
+                                 <input type="radio" name="Suger" id="suger_@suger.Id" class="choice-input" value="@suger.Id" data-price="@suger.Price" />
+                                 <label for="suger_@suger.Id" class="choice">
+                                     @suger.Name - $@suger.Price.ToString("0.00")
+                                 </label>
+                             }
+                         }
+                         else { <p>No sugar options available.</p> }
+                    </div>
+                </div>
+                <hr />
+                <div class="Order">
+                    <p class="subtital">Milk (optional)</p>
+                    <div class="row">
+                        @if (ViewBag.Milk != null && ViewBag.Milk.Count > 0)
+                        {
+                            @foreach (var Milk in ViewBag.Milk)
+                            {
+                                <input type="radio" name="Milk" id="milk_@Milk.Id" class="choice-input" value="@Milk.Id" data-price="@Milk.Price" />
+                                <label for="milk_@Milk.Id" class="choice">
+                                    @Milk.Name - $@Milk.Price.ToString("0.00")
+                                </label>
+                            }
+                        }
+                        else { <p>No milk options available.</p> }
+                    </div>
+                </div>
+            </div>
+            <div class="ProductsContener"> @* Note: Class name might be confusing here *@
+                <button type="submit" class="form-add-to-cart-button addition AddIcon">
+                    Add to cart
+                </button>
+                <p class="price">$@ViewBag.Product.MinPrice.ToString("0.00")</p> @* Display initial min price *@
+            </div>
+        </form>
+    </div>
+</section>
+
+<section class="Menu" id="menue">
+    @* ... (Recommended products section remains the same) ... *@
+     <div class="SubHeader">
+        <h1 style="font-weight: lighter;">You may also like</h1>
+     </div>
+     <div class="Menurow ProductsContener">
+         @if (ViewBag.RelatedProducts != null)
+         {
+             @foreach (var product in ViewBag.RelatedProducts)
+             {
+                 // Determine action based on related product category (assuming related products have CategoryId)
+                 var relatedAction = "ProductDetails"; // Default
+                 if (product.IdCategory == 1 || product.IdCategory == 2) { relatedAction = "ProductDetailsDrinks"; }
+                 else if (product.IdCategory == 3) { relatedAction = "ProductDetailsSweets"; }
+
+                 <div class="product">
+                     <a href="@Url.Action(relatedAction, "Products", new { id = product.IdProduct })">
+                         <img src="~/imges/@Url.Content(product.Picture ?? "~/imges/placeholder.png")" alt="@product.NameProduct" class="productImge">
+                     </a>
+                     <div class="productDetails">
+                         <div class="ProductName">
+                             <p><b>@product.NameProduct</b></p>
+                         </div>
+                         <div class="Evaluate">
+                             <p>@product.AverageRating.ToString("0.0") <img src="~/imges/star.png" alt="star" class="star"></p>
+                         </div>
+                         <div class="details">
+                             @* Consider making these dynamic if possible *@
+                             <p class="Volume">with no suger</p>
+                             <p class="Volume">Volume 100 ml</p>
+                         </div>
+                         <div class="PriceAdd">
+                             <p class="price1">$@product.MinPrice.ToString("0.00")</p>
+                             @* Simple Add to Cart for related items - Uses AddToCartSimple endpoint *@
+                             <a href="#" class="add-to-cart-related" data-id="@product.IdProduct" title="Add to Cart">
+                                 <img src="~/imges/add.png" alt="AddIcon" class="AddIcon addition">
+                             </a>
+                         </div>
+                     </div>
+                 </div>
+             }
+         } else {
+            <p>No related products found.</p>
+         }
+     </div>
+</section>
+
+@section Scripts
+{
+    @* <script src="~/js/main.js"></script> *@ @* Ensure this doesn't conflict *@
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // --- Antiforgery Token ---
+        const verificationTokenInput = document.getElementById('RequestVerificationToken');
+        const verificationToken = verificationTokenInput?.value; // Read token value
+        if (!verificationToken) {
+            console.error('AntiForgery Token not found! Favorite toggle will fail.');
+            // Optionally disable the favorite icon if token is missing
+            document.querySelectorAll('.favorite-icon').forEach(icon => icon.style.display = 'none');
+        }
+
+        // --- Favorite Toggle Logic ---
+        const favoriteIcons = document.querySelectorAll('.favorite-icon');
+
+        async function updateFavoriteIcon(icon) {
+            const productId = icon.dataset.id;
+            if (!productId) return; // Skip if no product ID
+
+            try {
+                const response = await fetch(`/Favorit/CheckFavorite?productId=${productId}`);
+                if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                const data = await response.json();
+
+                if (data.isFavorite) {
+                    icon.src = '/imges/galeb.png'; // Filled heart
+                    icon.dataset.isFavorite = 'true';
+                    icon.title = 'Remove from Favorites'; // Update tooltip
+                } else {
+                    icon.src = '/imges/123.png'; // Empty heart
+                    icon.dataset.isFavorite = 'false';
+                    icon.title = 'Add to Favorites'; // Update tooltip
+                }
+            } catch (error) {
+                console.error('Error checking favorite status:', error);
+                // Optionally display a user-friendly error message here
+            }
+        }
+
+        favoriteIcons.forEach(icon => {
+            // Initial check on page load
+            updateFavoriteIcon(icon);
+
+            // Click event listener
+            icon.addEventListener('click', async function (e) {
+                e.preventDefault(); // Prevent default image link behavior (if any)
+                const productId = this.dataset.id;
+
+                if (!verificationToken) {
+                     alert('Error: Missing security token. Cannot update favorites.');
+                     return; // Stop if token is missing
+                }
+                 if (!productId) {
+                     alert('Error: Missing product ID. Cannot update favorites.');
+                     return; // Stop if product ID is missing
+                }
+
+                // Optional: Add visual feedback during processing
+                this.style.opacity = '0.5';
+
+                try {
+                    // *** MODIFIED FETCH CALL to include Token Header ***
+                    const response = await fetch('/Favorit/ToggleFavorite', {
+                        method: 'POST',
+                        headers: {
+                            // Send token in the header
+                            'RequestVerificationToken': verificationToken,
+                            // Set Content-Type to JSON
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        // Send productId in the body as JSON
+                        body: JSON.stringify({ productId: parseInt(productId) }) // Ensure productId is number
+                    });
+
+                    // Remove visual feedback
+                    this.style.opacity = '1';
+
+                    if (!response.ok) {
+                        // Try to parse error JSON, provide fallback message
+                        const errorData = await response.json().catch(() => ({ message: `Server error: ${response.status}` }));
+                        throw new Error(errorData.message || `Failed to update favorite status.`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Update icon based on the NEW status from server
+                        if (result.isFavorite) {
+                            this.src = '/imges/galeb.png';
+                            this.dataset.isFavorite = 'true';
+                            this.title = 'Remove from Favorites';
+                        } else {
+                            this.src = '/imges/123.png';
+                            this.dataset.isFavorite = 'false';
+                            this.title = 'Add to Favorites';
+                        }
+                        // Consider using a less intrusive notification than alert
+                        // showToast(result.message); // Example using a hypothetical toast function
+                        console.log(result.message); // Log message instead of alert
+                    } else {
+                         // Server reported success: false
+                         alert(result.message || 'Failed to update favorite status.');
+                         if (result.redirectToLogin) {
+                             window.location.href = '/SignInUp/SignIn'; // Redirect if needed
+                         }
+                    }
+                } catch (error) {
+                    console.error('Error toggling favorite:', error);
+                    alert('Error: ' + error.message);
+                    // Ensure opacity is reset even on error
+                    this.style.opacity = '1';
+                }
+            });
+        });
+
+        // --- Price Update Logic (remains the same) ---
+        const milkRadioButtons = document.querySelectorAll('input[name="Milk"]');
+        const sizeRadioButtons = document.querySelectorAll('input[name="sizeId"]');
+        const sugerRadioButtons = document.querySelectorAll('input[name="Suger"]');
+        const priceDisplayElement = document.querySelector('.ProductsContener .price'); // Check selector if price isn't updating
+        const initialMinPrice = parseFloat(@Html.Raw(Json.Serialize(ViewBag.Product.MinPrice))); // Get initial price
+
+        function updatePriceDisplay() {
+            let selectedSizePrice = 0;
+            let selectedsugerPrice = 0;
+            let selectedmilkPrice = 0;
+
+            const checkedSizeRadioButton = document.querySelector('input[name="sizeId"]:checked');
+            const checkedsugerRadioButton = document.querySelector('input[name="Suger"]:checked');
+            const checkedmiilkRadioButton = document.querySelector('input[name="Milk"]:checked');
+
+            // Use initial min price if no size is selected yet
+            selectedSizePrice = checkedSizeRadioButton ? parseFloat(checkedSizeRadioButton.getAttribute('data-price')) : initialMinPrice;
+
+            if (checkedsugerRadioButton) {
+                selectedsugerPrice = parseFloat(checkedsugerRadioButton.getAttribute('data-price'));
+            }
+            if (checkedmiilkRadioButton) {
+                selectedmilkPrice = parseFloat(checkedmiilkRadioButton.getAttribute('data-price'));
+            }
+
+            if (priceDisplayElement) {
+                // Only add optional prices if a size IS selected
+                const totalPrice = checkedSizeRadioButton
+                                    ? selectedSizePrice + selectedsugerPrice + selectedmilkPrice
+                                    : selectedSizePrice; // Show min price if no size selected
+                priceDisplayElement.textContent = `$${totalPrice.toFixed(2)}`;
+            }
+        }
+
+        sizeRadioButtons.forEach(radio => radio.addEventListener('change', updatePriceDisplay));
+        milkRadioButtons.forEach(radio => radio.addEventListener('change', updatePriceDisplay));
+        sugerRadioButtons.forEach(radio => radio.addEventListener('change', updatePriceDisplay));
+
+        // Initial price update on load
+        updatePriceDisplay();
+
+
+        // --- Related Products AddToCart Logic ---
+        document.querySelectorAll('.add-to-cart-related').forEach(button => {
+            button.addEventListener('click', async function (e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-id');
+                const verificationTokenForRelated = verificationToken; // Use the same token
+
+                 if (!verificationTokenForRelated) {
+                     alert('Error: Missing security token. Cannot add to cart.');
+                     return;
+                 }
+                 if (!productId) {
+                     alert('Error: Missing product ID. Cannot add to cart.');
+                     return;
+                 }
+
+                // Optional: Visual feedback
+                this.style.opacity = '0.5';
+
+                try {
+                    // Assuming AddToCartSimple expects form data and validates token
+                    const response = await fetch('/Products/AddToCartSimple', {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': verificationTokenForRelated, // Send token
+                            'Content-Type': 'application/x-www-form-urlencoded', // Correct content type
+                        },
+                        // Send productId as form data
+                        body: `productId=${encodeURIComponent(productId)}`
+                    });
+
+                     this.style.opacity = '1'; // Reset opacity
+
+                    if (!response.ok) {
+                         const errorData = await response.json().catch(() => ({ message: `Server error: ${response.status}` }));
+                         throw new Error(errorData.error || errorData.message || `Failed to add item.`); // Use 'error' field if present
+                    }
+
+                    const result = await response.json();
+                    if (result.success) {
+                        // showToast(result.message); // Example
+                        alert(result.message); // Or use alert for now
+                    } else {
+                        alert(result.error || result.message || 'Could not add item to cart.'); // Use 'error' field if present
+                         if (result.redirectToLogin) { // Check if redirect needed
+                             window.location.href = '/SignInUp/SignIn';
+                         }
+                    }
+                } catch (error) {
+                    console.error('Error adding related item to cart:', error);
+                    alert('Error: ' + error.message);
+                    this.style.opacity = '1'; // Reset opacity on error
+                }
+            });
+        });
+
+        // --- TempData Messages (Optional: replace alerts) ---
+        const loginErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
+        if (loginErrorMessage) {
+            // showToast(loginErrorMessage, 'error'); // Example
+            alert(loginErrorMessage);
+        }
+        const successMessage = @Html.Raw(Json.Serialize(TempData["SuccessMessage"]));
+        if (successMessage) {
+            // showToast(successMessage, 'success'); // Example
+            alert(successMessage);
+        }
+
+    });
+    </script>
+}
+

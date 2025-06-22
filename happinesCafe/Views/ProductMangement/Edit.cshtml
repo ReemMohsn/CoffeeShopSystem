@@ -1,0 +1,83 @@
+﻿@model happinesCafe.Models.Admin.EditProductViewModel
+
+@{
+    Layout = "_Layout1";
+    ViewData["Title"] = "Add New Product";
+}
+@section Links{
+        <link rel="stylesheet" href="~/css/StyleSheet1.css">
+        <partial name="_ValidationScriptsPartial" />;
+        <script>
+            var loadFile=function(event){
+                var reader=new FileReader();
+                reader.onload=function(){
+                    var myImg=document.getElementById('myImg');
+                    myImg.src=reader.result;
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+}
+<div class="form-wrapper">
+    <h1 class="tital1">Edit Product</h1>
+    <hr />
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+		    <input type="hidden" asp-for="ExistingPicture" />
+            <div class="box">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="box">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="@Model.Categories">
+                    <option value="">Select Category </option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="box">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" type="file" class="form-control" onchange="loadFile(event)" />
+                @if (!string.IsNullOrEmpty(Model.ExistingPicture))
+					{ 
+                        <img id="myImg" src="~/imges/@Model.ExistingPicture" alt="product pictuer" width="200" />
+					}
+                
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            <div class="box">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <hr />
+            <h4>Sizes And Prices</h4>
+            @for (int i = 0; i < Model.AvailableSizes.Count; i++)
+            {
+                <div class="box">
+                    <label class="control-label">@Model.AvailableSizes[i].Text</label>
+
+                    <div class="box">
+                        <input type="number" class="form-control"
+                        name="SizesAndPrices[@Model.AvailableSizes[i].Value]"
+                        value="@Model.SizesAndPrices[int.Parse(Model.AvailableSizes[i].Value)]"
+                        placeholder="enter price" />
+                    </div>
+                </div>
+            }
+
+            <div class="box">
+                <button type="submit" class="btn btn-light btn-lg btnn">Save Change</button>
+                <a asp-action="DisplayProduct" class="btn btn-light btn-lg btnn">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,99 @@
+﻿/* Styles for the product details section within the dashboard layout */
+.product-details-container {
+    padding: 20px;
+    
+    color: #F2F1F4; /* Consistent text color */
+}
+
+.product-details-title {
+    font-family: 'aldhabi', sans-serif; /* Use dashboard heading font */
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-align: left; /* Adjust alignment as needed */
+}
+
+.product-details-card {
+    /*background-color: #723A1F;*/ /* Consistent card background */
+    padding: 20px;
+    border-radius: 20px;
+    /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+    box-shadow: 0px 2px 12px 0px rgba(177, 110, 37, 0.98); /* Match dashboard shadow */
+    background: rgb(29, 18, 12); /* Match dashboard background */
+}
+
+.card-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.card-divider {
+    border-top: 1px solid #F2F1F41a;
+    margin-bottom: 15px;
+}
+
+.detail-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 12px;
+    align-items: flex-start; /* Align labels and values at the top */
+}
+
+.detail-label {
+    font-weight: bold;
+    font-size: 1.5rem;
+    min-width: 120px; /* Adjust width for label alignment */
+    text-align: left;
+}
+
+.detail-value {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.product-image {
+    border-radius: 5px;
+    max-width: 100%; /* Make image responsive within its container */
+    height: auto;
+    display: block;
+}
+
+.form-actions {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.delete-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f00; /* Danger color */
+    color: #F2F1F4;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+    .delete-button:hover {
+        background-color: #a00;
+    }
+
+.back-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #F2F1F4; /* Secondary action color */
+    color: #1d120c;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1.6rem;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .back-link:hover {
+        background-color: #1d120c;
+        color: #F2F1F4;
+    }
