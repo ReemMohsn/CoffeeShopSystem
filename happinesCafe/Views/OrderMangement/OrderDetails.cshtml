@@ -1,4 +1,4 @@
-﻿@* ~/Views/OrderMangement/OrderDetails.cshtml *@
+@* ~/Views/OrderMangement/OrderDetails.cshtml *@
 @model happinesCafe.Models.Admin.OrderDetailsViewModel
 
 @{
@@ -10,11 +10,7 @@
 
     <h1 class="dashboard-title" style= " color: #F2F1F4">Order Details #@Model.IdOrder</h1>
 
-    @* Display Success/Error Messages *@
-    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
-    { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
-    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
-    { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
 
     @* Customer Info & Order Summary Section *@
     <div class="details-section card">
@@ -113,7 +109,7 @@
         <div class="action-block">
              <h4 class="section-subtitle">Cancel Order</h4>
              <!-- Use asp-route-id here too -->
-             <form asp-action="CancelOrder" asp-route-id="@Model.IdOrder" method="post" class="action-form">
+             <form asp-action="CancelOrder" asp-controller="Buying" asp-route-idorder="@Model.IdOrder" method="post" class="action-form">
                   @Html.AntiForgeryToken()
                   <!-- No hidden input needed -->
                  <p class="cancel-warning">Cancelling cannot be undone.</p>

@@ -102,11 +102,11 @@
                     </div>
                 </div>
             </div>
-            <div class="ProductsContener"> @* Note: Class name might be confusing here *@
+            <div class="ProductsContener">
                 <button type="submit" class="form-add-to-cart-button addition AddIcon">
                     Add to cart
                 </button>
-                <p class="price">$@ViewBag.Product.MinPrice.ToString("0.00")</p> @* Display initial min price *@
+                <p class="price">$@ViewBag.Product.MinPrice.ToString("0.00")</p>
             </div>
         </form>
     </div>
@@ -158,6 +158,7 @@
          }
      </div>
 </section>
+
 
 @section Scripts
 {
@@ -211,11 +212,11 @@
                 const productId = this.dataset.id;
 
                 if (!verificationToken) {
-                     alert('Error: Missing security token. Cannot update favorites.');
+                     Notify.error('Error: Missing security token. Cannot update favorites.');
                      return; // Stop if token is missing
                 }
                  if (!productId) {
-                     alert('Error: Missing product ID. Cannot update favorites.');
+                     Notify.error('Error: Missing product ID. Cannot update favorites.');
                      return; // Stop if product ID is missing
                 }
 
@@ -264,14 +265,14 @@
                         console.log(result.message); // Log message instead of alert
                     } else {
                          // Server reported success: false
-                         alert(result.message || 'Failed to update favorite status.');
+                         Notify.error(result.message || 'Failed to update favorite status.');
                          if (result.redirectToLogin) {
                              window.location.href = '/SignInUp/SignIn'; // Redirect if needed
                          }
                     }
                 } catch (error) {
                     console.error('Error toggling favorite:', error);
-                    alert('Error: ' + error.message);
+                    Notify.error('Error: ' + error.message);
                     // Ensure opacity is reset even on error
                     this.style.opacity = '1';
                 }
@@ -326,70 +327,55 @@
             button.addEventListener('click', async function (e) {
                 e.preventDefault();
                 const productId = this.getAttribute('data-id');
-                const verificationTokenForRelated = verificationToken; // Use the same token
 
-                 if (!verificationTokenForRelated) {
-                     alert('Error: Missing security token. Cannot add to cart.');
+                 if (!verificationToken) {
+                     Notify.error('Error: Missing security token. Cannot add to cart.');
                      return;
                  }
                  if (!productId) {
-                     alert('Error: Missing product ID. Cannot add to cart.');
+                     Notify.error('Error: Missing product ID. Cannot add to cart.');
                      return;
                  }
 
-                // Optional: Visual feedback
                 this.style.opacity = '0.5';
 
                 try {
-                    // Assuming AddToCartSimple expects form data and validates token
                     const response = await fetch('/Products/AddToCartSimple', {
                         method: 'POST',
                         headers: {
-                            'RequestVerificationToken': verificationTokenForRelated, // Send token
-                            'Content-Type': 'application/x-www-form-urlencoded', // Correct content type
+                            'RequestVerificationToken': verificationToken,
+                            'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        // Send productId as form data
                         body: `productId=${encodeURIComponent(productId)}`
                     });
 
-                     this.style.opacity = '1'; // Reset opacity
+                     this.style.opacity = '1';
 
                     if (!response.ok) {
                          const errorData = await response.json().catch(() => ({ message: `Server error: ${response.status}` }));
-                         throw new Error(errorData.error || errorData.message || `Failed to add item.`); // Use 'error' field if present
+                         throw new Error(errorData.error || errorData.message || `Failed to add item.`);
                     }
 
                     const result = await response.json();
                     if (result.success) {
-                        // showToast(result.message); // Example
-                        alert(result.message); // Or use alert for now
+                        Notify.success(result.message);
                     } else {
-                        alert(result.error || result.message || 'Could not add item to cart.'); // Use 'error' field if present
-                         if (result.redirectToLogin) { // Check if redirect needed
+                        Notify.error(result.error || result.message || 'Could not add item to cart.');
+                         if (result.redirectToLogin) {
                              window.location.href = '/SignInUp/SignIn';
                          }
                     }
                 } catch (error) {
                     console.error('Error adding related item to cart:', error);
-                    alert('Error: ' + error.message);
-                    this.style.opacity = '1'; // Reset opacity on error
+                    Notify.error('Error: ' + error.message);
+                    this.style.opacity = '1';
                 }
             });
         });
 
-        // --- TempData Messages (Optional: replace alerts) ---
-        const loginErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
-        if (loginErrorMessage) {
-            // showToast(loginErrorMessage, 'error'); // Example
-            alert(loginErrorMessage);
-        }
-        const successMessage = @Html.Raw(Json.Serialize(TempData["SuccessMessage"]));
-        if (successMessage) {
-            // showToast(successMessage, 'success'); // Example
-            alert(successMessage);
-        }
-
     });
     </script>
 }
+
+
 

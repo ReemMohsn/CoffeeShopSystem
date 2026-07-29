@@ -1,4 +1,4 @@
-﻿using happinesCafe.Models;
+using happinesCafe.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using happinesCafe.DATA;
@@ -71,31 +71,41 @@ namespace happinesCafe.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpPost]
         public async Task<IActionResult> SendEmail(string email, string message)
         {
-            var toEmail = "reemalthibani46@gmail.com";
-            var subject = $"new message frome {email}";
-            var body = $"Email: {email}\n\nMessage:\n{message}";
-
-            using (var smtp = new SmtpClient("smtp.gmail.com"))
+            try
             {
-                smtp.Port = 587; // أو 465 حسب الخادم
-                smtp.Credentials = new NetworkCredential("reemalthibani46", "xirj jdns wmiz qxut");
-                smtp.EnableSsl = true; // استخدم SSL إذا لزم الأمر
+                var toEmail = "reemalthibani46@gmail.com";
+                var subject = $"new message frome {email}";
+                var body = $"Email: {email}\n\nMessage:\n{message}";
 
-                var mailMessage = new MailMessage
+                using (var smtp = new SmtpClient("smtp.gmail.com"))
                 {
-                    From = new MailAddress(email),
-                    Subject = subject,
-                    Body = body,
-                    IsBodyHtml = false,
-                };
-                mailMessage.To.Add(toEmail);
+                    smtp.Port = 587;
+                    smtp.Credentials = new NetworkCredential("reemalthibani46", "xirj jdns wmiz qxut");
+                    smtp.EnableSsl = true;
 
-                await smtp.SendMailAsync(mailMessage);
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(email),
+                        Subject = subject,
+                        Body = body,
+                        IsBodyHtml = false,
+                    };
+                    mailMessage.To.Add(toEmail);
+
+                    await smtp.SendMailAsync(mailMessage);
+                }
+
+                TempData["SuccessMessage"] = "Your message has been sent successfully! We'll get back to you soon.";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Failed to send your message. Please try again later.";
             }
 
-            return RedirectToAction("Index"); // إعادة توجيه المستخدم بعد الإرسال
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -103,25 +113,34 @@ namespace happinesCafe.Controllers
         {
             if (HttpContext.Session.GetInt32("UserId") == null)
             {
-                return RedirectToAction("SignUp", "SignInUp"); // توجيه إلى صفحة تسجيل الدخول
+                TempData["ErrorMessage"] = "You must sign in first to submit a review.";
+                return RedirectToAction("SignUp", "SignInUp");
             }
             int userId = (int)HttpContext.Session.GetInt32("UserId");
-            var user = _db.Users.Find(userId); // تحقق مما إذا كان المستخدم موجودًا
+            var user = _db.Users.Find(userId);
 
             if (user == null)
             {
-                return RedirectToAction("SignUp", "SignInUp"); // توجيه إلى صفحة تسجيل الدخول
+                TempData["ErrorMessage"] = "User account not found. Please sign in again.";
+                return RedirectToAction("SignUp", "SignInUp");
             }
-            comment.IdUser = userId; // احفظ UserId من الجلسة
+            comment.IdUser = userId;
             comment.ReviewDate = DateTime.Now;
+
+            // إزالة أخطاء الـ navigation properties لأنها لا تُرسل من الفورم
+            ModelState.Remove("IdUserNavigation");
+            ModelState.Remove("IdProductNavigation");
+
             if (ModelState.IsValid)
             {
                 _db.Reviews.Add(comment);
                 _db.SaveChanges();
-                return RedirectToAction("Index"); // أو أي إجراء آخر
+                TempData["SuccessMessage"] = "Thank you! Your review has been submitted successfully.";
+                return RedirectToAction("Index");
             }
+            TempData["ErrorMessage"] = "Failed to submit review. Please check your input and try again.";
             ViewBag.productss = _db.Products.ToList();
-            return View(comment);
+            return RedirectToAction("Index");
         }
     }
 }

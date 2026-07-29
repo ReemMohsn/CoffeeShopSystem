@@ -1,0 +1,104 @@
+@* ============================================================
+   _Notifications.cshtml  —  Global SweetAlert2 TempData handler
+   Included once in _Layout.cshtml — handles all pages automatically
+   ============================================================ *@
+@{
+    var _successMsg = TempData["SuccessMessage"] as string;
+    var _errorMsg   = TempData["ErrorMessage"]   as string;
+    var _infoMsg    = TempData["InfoMessage"]     as string;
+    var _warnMsg    = TempData["WarningMessage"]  as string;
+}
+
+@if (!string.IsNullOrEmpty(_successMsg) || !string.IsNullOrEmpty(_errorMsg)
+  || !string.IsNullOrEmpty(_infoMsg)    || !string.IsNullOrEmpty(_warnMsg))
+{
+    <script>
+    (function () {
+        // Wait until SweetAlert2 and DOM are ready
+        function showNotification() {
+            @if (!string.IsNullOrEmpty(_successMsg))
+            {
+                <text>
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: @Html.Raw(Json.Serialize(_successMsg)),
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true,
+                    customClass: { popup: 'swal-custom-popup' },
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                </text>
+            }
+            @if (!string.IsNullOrEmpty(_errorMsg))
+            {
+                <text>
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'error',
+                    title: @Html.Raw(Json.Serialize(_errorMsg)),
+                    showConfirmButton: false,
+                    timer: 4500,
+                    timerProgressBar: true,
+                    customClass: { popup: 'swal-custom-popup' },
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                </text>
+            }
+            @if (!string.IsNullOrEmpty(_infoMsg))
+            {
+                <text>
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'info',
+                    title: @Html.Raw(Json.Serialize(_infoMsg)),
+                    showConfirmButton: false,
+                    timer: 3500,
+                    timerProgressBar: true,
+                    customClass: { popup: 'swal-custom-popup' },
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                </text>
+            }
+            @if (!string.IsNullOrEmpty(_warnMsg))
+            {
+                <text>
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: @Html.Raw(Json.Serialize(_warnMsg)),
+                    showConfirmButton: false,
+                    timer: 4000,
+                    timerProgressBar: true,
+                    customClass: { popup: 'swal-custom-popup' },
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer);
+                        toast.addEventListener('mouseleave', Swal.resumeTimer);
+                    }
+                });
+                </text>
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', showNotification);
+        } else {
+            showNotification();
+        }
+    })();
+    </script>
+}

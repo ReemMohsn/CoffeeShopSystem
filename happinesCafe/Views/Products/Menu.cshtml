@@ -140,20 +140,21 @@
                         if (response.ok) {
                             const result = await response.json();
                             if (result.success) {
-                                alert(result.message);
+                                Notify.success(result.message);
                             } else {
-                                alert(result.error);
+                                Notify.error(result.error);
                             }
                         } else {
-                            alert('A server connection error occurred.');
+                            Notify.error('A server connection error occurred.');
                         }
                     } catch (error) {
                         console.error('Error:', error);
-                        alert('An error occurred while adding to cart.');
+                        Notify.error('An error occurred while adding to cart.');
                     }
                 });
             });
         });
     </script>
 }
+
 

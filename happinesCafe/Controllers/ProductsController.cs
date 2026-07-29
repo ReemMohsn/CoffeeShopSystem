@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using happinesCafe.DATA;
 using happinesCafe.Models;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +59,7 @@ namespace happinesCafe.Controllers
                     return Json(new
                     {
                         success = true,
-                        message = $"تم تحديث كمية المنتج في السلة ({existingItem.QuantityProduct} قطعة)."
+                        message = $"Cart updated: quantity is now {existingItem.QuantityProduct} item(s)."
                     });
                 }
                 else
@@ -94,8 +94,8 @@ namespace happinesCafe.Controllers
             }
         }
 
-        [HttpPost] 
-        public async Task<IActionResult> AddToBasket(int productId, int? sizeId )
+        [HttpPost]
+        public async Task<IActionResult> AddToBasket(int productId, int? sizeId)
         {
             // التحقق من وجود حجم مختار
             if (!sizeId.HasValue || sizeId.Value == 0)
@@ -106,15 +106,11 @@ namespace happinesCafe.Controllers
 
             // 1. التحقق من تسجيل دخول المستخدم
             var userId = HttpContext.Session.GetInt32("UserId");
-
             if (userId == null)
             {
-                
                 TempData["ErrorMessage"] = "You must log in first to add products to the cart.";
-
                 return RedirectToAction("ProductDetails", new { id = productId });
             }
-
 
             try
             {
@@ -125,7 +121,7 @@ namespace happinesCafe.Controllers
                 if (productSize == null)
                 {
                     TempData["ErrorMessage"] = "The selected size is not available for this product";
-                    return RedirectToAction("ProductDetails", new { id = productId }); 
+                    return RedirectToAction("ProductDetails", new { id = productId });
                 }
 
                 // 3. التحقق إذا كان المنتج موجوداً بالسلة وتحديث الكمية أو الإضافة
@@ -134,37 +130,31 @@ namespace happinesCafe.Controllers
 
                 if (existingBasketItem != null)
                 {
-                    existingBasketItem.QuantityProduct += 1; 
-                    //existingBasketItem.TotalPrice = existingBasketItem.QuantityProduct * productSize.Price;
+                    existingBasketItem.QuantityProduct += 1;
                     _db.Baskets.Update(existingBasketItem);
-                    TempData["SuccessMessage"] = $"تم تحديث كمية المنتج في السلة بنجاح ({existingBasketItem.QuantityProduct} قطعة).";
+                    TempData["SuccessMessage"] = $"Product quantity updated in cart ({existingBasketItem.QuantityProduct} items).";
                 }
                 else
                 {
-                    // 4. إنشاء عنصر سلة جديد
                     var basketItem = new Basket
                     {
                         IdUser = userId.Value,
                         IdProductSize = productSize.Id,
-                        QuantityProduct = 1, 
+                        QuantityProduct = 1,
                         AddedDate = DateTime.Now,
-                        TotalPrice =  productSize.Price 
+                        TotalPrice = productSize.Price
                     };
                     _db.Baskets.Add(basketItem);
-                    TempData["SuccessMessage"] = "product add to cart success.";
+                    TempData["SuccessMessage"] = "Product successfully added to cart";
                 }
 
-                // 5. حفظ التغييرات في قاعدة البيانات
                 await _db.SaveChangesAsync();
-
                 return RedirectToAction("ProductDetails", new { id = productId });
-
-                           }
+            }
             catch (Exception ex)
             {
-                // التعامل مع الأخطاء غير المتوقعة
-                TempData["ErrorMessage"] = "error aqured when add the product to cart ,try agin later";
-                return RedirectToAction("ProductDetails", new { id = productId }); 
+                TempData["ErrorMessage"] = "An error occurred while adding the product to the cart, please try again later.";
+                return RedirectToAction("ProductDetails", new { id = productId });
             }
         }
 
@@ -175,7 +165,7 @@ namespace happinesCafe.Controllers
             // التحقق من وجود حجم مختار (إلزامي)
             if (!sizeId.HasValue || sizeId.Value == 0)
             {
-                TempData["ErrorMessage"] = "select the size of product befor add to cart";
+                TempData["ErrorMessage"] = "Please select the product size before adding to cart";
                 return RedirectToAction("ProductDetailsDrinks", new { id = productId });
             }
 
@@ -183,7 +173,7 @@ namespace happinesCafe.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
-                TempData["ErrorMessage"] = "must sign in first to add products to cart";
+                TempData["ErrorMessage"] = "You must sign in first to add products to cart";
                 return RedirectToAction("ProductDetailsDrinks", new { id = productId });
             }
 
@@ -195,7 +185,7 @@ namespace happinesCafe.Controllers
 
                 if (productSize == null)
                 {
-                    TempData["ErrorMessage"] = "selected size not found fot this product";
+                    TempData["ErrorMessage"] = "Selected size not found for this product";
                     return RedirectToAction("ProductDetailsDrinks", new { id = productId });
                 }
 
@@ -207,10 +197,9 @@ namespace happinesCafe.Controllers
                 {
                     var selectedSuger = await _db.ProductAddOns
                         .FirstOrDefaultAsync(f => f.Id == Suger.Value);
-
                     if (selectedSuger == null)
                     {
-                        TempData["ErrorMessage"] = "suger selected not found ";
+                        TempData["ErrorMessage"] = "Selected sugar option not found";
                         return RedirectToAction("ProductDetailsDrinks", new { id = productId });
                     }
                     totalPrice += selectedSuger.Price;
@@ -222,15 +211,15 @@ namespace happinesCafe.Controllers
                 {
                     var selectedMilk = await _db.ProductAddOns
                         .FirstOrDefaultAsync(f => f.Id == Milk.Value);
-
                     if (selectedMilk == null)
                     {
-                        TempData["ErrorMessage"] = "milk selected not found";
+                        TempData["ErrorMessage"] = "Selected milk option not found";
                         return RedirectToAction("ProductDetailsDrinks", new { id = productId });
                     }
                     totalPrice += selectedMilk.Price;
                     selectedAddOns.Add(selectedMilk.Id);
                 }
+
                 // التحقق إذا كان المنتج موجوداً بالسلة مع نفس الخيارات
                 var potentialItems = await _db.Baskets
                     .Include(b => b.BasketProductAddOns)
@@ -245,15 +234,12 @@ namespace happinesCafe.Controllers
 
                 if (existingBasketItem != null)
                 {
-                    // المنتج موجود بنفس الخيارات، زيادة الكمية
                     existingBasketItem.QuantityProduct += 1;
-
                     _db.Baskets.Update(existingBasketItem);
-                    TempData["SuccessMessage"] = $"the quntity of product in cart is upgrid ({existingBasketItem.QuantityProduct} قطعة).";
+                    TempData["SuccessMessage"] = $"Product quantity updated in cart ({existingBasketItem.QuantityProduct} items).";
                 }
                 else
                 {
-                    // إنشاء عنصر سلة جديد
                     var basketItem = new Basket
                     {
                         IdUser = userId.Value,
@@ -265,7 +251,6 @@ namespace happinesCafe.Controllers
                     _db.Baskets.Add(basketItem);
                     await _db.SaveChangesAsync();
 
-                    // إضافة الإضافات المختارة فقط
                     foreach (var addOnId in selectedAddOns)
                     {
                         _db.BasketProductAddOns.Add(new BasketProductAddOn
@@ -274,8 +259,7 @@ namespace happinesCafe.Controllers
                             IdProductAddOns = addOnId
                         });
                     }
-
-                    TempData["SuccessMessage"] = "product add to cart success";
+                    TempData["SuccessMessage"] = "Product successfully added to cart";
                 }
 
                 await _db.SaveChangesAsync();
@@ -284,7 +268,7 @@ namespace happinesCafe.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in AddDrinkesToBasket: {ex.Message}");
-                TempData["ErrorMessage"] = "error happin when add the product to cart,try agin later.";
+                TempData["ErrorMessage"] = "An error occurred while adding the product to the cart, please try again later.";
                 return RedirectToAction("ProductDetailsDrinks", new { id = productId });
             }
         }
@@ -295,7 +279,7 @@ namespace happinesCafe.Controllers
             // التحقق من وجود حجم مختار (إلزامي)
             if (!sizeId.HasValue || sizeId.Value == 0)
             {
-                TempData["ErrorMessage"] = "select the size of product befor add to cart";
+                TempData["ErrorMessage"] = "Please select the product size before adding to cart";
                 return RedirectToAction("ProductDetailsSweets", new { id = productId });
             }
 
@@ -303,7 +287,7 @@ namespace happinesCafe.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
-                TempData["ErrorMessage"] = "sign in first to add products to cart.";
+                TempData["ErrorMessage"] = "You must sign in first to add products to cart.";
                 return RedirectToAction("ProductDetailsSweets", new { id = productId });
             }
 
@@ -315,7 +299,7 @@ namespace happinesCafe.Controllers
 
                 if (productSize == null)
                 {
-                    TempData["ErrorMessage"] = "الحجم المحدد غير متوفر لهذا المنتج.";
+                    TempData["ErrorMessage"] = "The selected size is not available for this product.";
                     return RedirectToAction("ProductDetailsSweets", new { id = productId });
                 }
 
@@ -325,10 +309,9 @@ namespace happinesCafe.Controllers
                 {
                     selectedFlavour = await _db.ProductAddOns
                         .FirstOrDefaultAsync(f => f.Id == flavour.Value);
-
                     if (selectedFlavour == null)
                     {
-                        TempData["ErrorMessage"] = "النكهة المحددة غير متوفرة";
+                        TempData["ErrorMessage"] = "The selected flavour is not available.";
                         return RedirectToAction("ProductDetailsSweets", new { id = productId });
                     }
                 }
@@ -345,13 +328,11 @@ namespace happinesCafe.Controllers
                 if (existingBasketItem != null)
                 {
                     existingBasketItem.QuantityProduct += 1;
-
                     _db.Baskets.Update(existingBasketItem);
-                    TempData["SuccessMessage"] = $"تم تحديث كمية المنتج في السلة بنجاح ({existingBasketItem.QuantityProduct} قطعة).";
+                    TempData["SuccessMessage"] = $"Product quantity updated in cart ({existingBasketItem.QuantityProduct} items).";
                 }
                 else
                 {
-                    // إنشاء عنصر سلة جديد
                     var basketItem = new Basket
                     {
                         IdUser = userId.Value,
@@ -363,18 +344,15 @@ namespace happinesCafe.Controllers
                     _db.Baskets.Add(basketItem);
                     await _db.SaveChangesAsync();
 
-                    // إضافة النكهة إذا تم اختيارها
                     if (selectedFlavour != null)
                     {
-                        var basketProductAddOn = new BasketProductAddOn
+                        _db.BasketProductAddOns.Add(new BasketProductAddOn
                         {
                             IdBasket = basketItem.IdBasket,
                             IdProductAddOns = selectedFlavour.Id
-                        };
-                        _db.BasketProductAddOns.Add(basketProductAddOn);
+                        });
                     }
-
-                    TempData["SuccessMessage"] = "تمت إضافة المنتج إلى السلة بنجاح.";
+                    TempData["SuccessMessage"] = "Product successfully added to cart";
                 }
 
                 await _db.SaveChangesAsync();
@@ -383,7 +361,7 @@ namespace happinesCafe.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error in AddSweetToBasket: {ex.Message}");
-                TempData["ErrorMessage"] = "حدث خطأ أثناء محاولة إضافة المنتج للسلة. الرجاء المحاولة مرة أخرى.";
+                TempData["ErrorMessage"] = "An error occurred while adding the product to the cart, please try again later.";
                 return RedirectToAction("ProductDetailsSweets", new { id = productId });
             }
         }
