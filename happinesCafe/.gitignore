@@ -1,4 +1,4 @@
-﻿# Visual Studio files
+# Visual Studio files
 .vs/
 *.user
 *.suo
@@ -11,16 +11,19 @@ obj/
 *.pdb
 *.exe
 
-appsettings.Development.json  # يحتوي على connection strings محلية
-appsettings.local.json        # إذا كنت تستخدم ملف إضافي للإعدادات المحلية
-__MigrationHistory/           # مجلد migrations المحلي (إذا كنت تستخدم Code First)
-*.mdf                         # ملفات قاعدة بيانات SQL Server المحلية
-*.ldf                         # ملفات log SQL Server
+# ملفات الإعدادات السرية - لا ترفعها على GitHub أبداً
+appsettings.json
+appsettings.Development.json
+appsettings.local.json
+
+__MigrationHistory/
+*.mdf
+*.ldf
 
 packages/
 .nuget/
-.env                          # إذا كنت تستخدم متغيرات بيئة
-launchSettings.json           # يحتوي على إعدادات محلية للـ debug
+.env
+launchSettings.json
 *.log
 *.sqlite
 *.bak
