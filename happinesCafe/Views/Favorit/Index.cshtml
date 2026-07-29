@@ -71,7 +71,7 @@
                     <img class="img-heart remove-favorite-btn" src="~/imges/galeb.png" alt="Remove from Favorites" title="Remove from Favorites">
 
                     <a asp-controller="Products" asp-action="@productAction" asp-route-id="@item.ProductId" class="product-link">
-                        <img class="~/imges/@item.ProductPictureClass" src="@Url.Content(item.ProductPictureUrl ?? "~/imges/placeholder.png")" alt="@item.ProductName">
+                        <img class="@item.ProductPictureClass" src="@Url.Content("~/imges/" + (item.ProductPictureUrl ?? "placeholder.png"))" alt="@item.ProductName">
                     </a>
 
                     <div class="Productnam">
@@ -167,7 +167,7 @@
                             // showToast(data.message || 'Removed from favorites!'); // Optional notification
                         } else {
                             // Removal failed or resulted in item being added (unexpected)
-                            alert(data.message || 'Could not remove item.');
+                            Notify.error(data.message || 'Could not remove item.');
                             removeButton.classList.remove('processing'); // Make button clickable again
                             if (data.redirectToLogin) {
                                 window.location.href = '/SignInUp/SignIn';
@@ -176,7 +176,7 @@
                     })
                     .catch(error => {
                         console.error('Error removing favorite:', error);
-                        alert('An error occurred: ' + error.message);
+                        Notify.error('An error occurred: ' + error.message);
                         removeButton.classList.remove('processing'); // Make button clickable again
                     });
                 }
@@ -184,3 +184,4 @@
         });
     </script>
 }
+

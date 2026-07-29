@@ -48,8 +48,6 @@
 
         @* Form for adding sweets to the basket *@
         <form asp-controller="Products" asp-action="AddSweetToBasket" method="post">
-            @* Token for form submission (if AddSweetToBasket requires it) *@
-            @* <input type="hidden" name="__RequestVerificationToken" value="@requestToken" /> *@
             <input type="hidden" name="productId" value="@ViewBag.Product.IdProduct" />
 
             <div class="OrderDetails">
@@ -89,9 +87,9 @@
                 </div>
             </div>
 
-            <div class="ProductsContener"> @* Note: Class name might be confusing here *@
+            <div class="ProductsContener">
                 <button type="submit" class="form-add-to-cart-button addition AddIcon">Add to cart</button>
-                <p class="price">$@ViewBag.Product.MinPrice.ToString("0.00")</p> @* Display initial min price *@
+                <p class="price">$@ViewBag.Product.MinPrice.ToString("0.00")</p>
             </div>
         </form>
     </div>
@@ -136,6 +134,7 @@
         else { <p>No related products found.</p> }
     </div>
 </section>
+
 
 @section Scripts
 {
@@ -186,11 +185,11 @@
                 const productId = this.dataset.id;
 
                 if (!verificationToken) {
-                     alert('Error: Missing security token. Cannot update favorites.');
+                     Notify.error('Error: Missing security token. Cannot update favorites.');
                      return;
                 }
                  if (!productId) {
-                     alert('Error: Missing product ID. Cannot update favorites.');
+                     Notify.error('Error: Missing product ID. Cannot update favorites.');
                      return;
                 }
 
@@ -230,14 +229,14 @@
                         }
                         console.log(result.message); // Log success message
                     } else {
-                         alert(result.message || 'Failed to update favorite status.');
+                         Notify.error(result.message || 'Failed to update favorite status.');
                          if (result.redirectToLogin) {
                              window.location.href = '/SignInUp/SignIn';
                          }
                     }
                 } catch (error) {
                     console.error('Error toggling favorite:', error);
-                    alert('Error: ' + error.message);
+                    Notify.error('Error: ' + error.message);
                     this.style.opacity = '1'; // Reset visual feedback on error
                 }
             });
@@ -284,25 +283,23 @@
             button.addEventListener('click', async function (e) {
                 e.preventDefault();
                 const productId = this.getAttribute('data-id');
-                const verificationTokenForRelated = verificationToken; // Use the same token
 
-                 if (!verificationTokenForRelated) {
-                     alert('Error: Missing security token. Cannot add to cart.');
+                 if (!verificationToken) {
+                     Notify.error('Error: Missing security token. Cannot add to cart.');
                      return;
                  }
                  if (!productId) {
-                     alert('Error: Missing product ID. Cannot add to cart.');
+                     Notify.error('Error: Missing product ID. Cannot add to cart.');
                      return;
                  }
 
                 this.style.opacity = '0.5';
 
                 try {
-                    // Assuming AddToCartSimple expects form data and validates token
                     const response = await fetch('/Products/AddToCartSimple', {
                         method: 'POST',
                         headers: {
-                            'RequestVerificationToken': verificationTokenForRelated,
+                            'RequestVerificationToken': verificationToken,
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
                         body: `productId=${encodeURIComponent(productId)}`
@@ -317,27 +314,24 @@
 
                     const result = await response.json();
                     if (result.success) {
-                        alert(result.message);
+                        Notify.success(result.message);
                     } else {
-                        alert(result.error || result.message || 'Could not add item to cart.');
+                        Notify.error(result.error || result.message || 'Could not add item to cart.');
                          if (result.redirectToLogin) {
                              window.location.href = '/SignInUp/SignIn';
                          }
                     }
                 } catch (error) {
                     console.error('Error adding related item to cart:', error);
-                    alert('Error: ' + error.message);
+                    Notify.error('Error: ' + error.message);
                     this.style.opacity = '1';
                 }
             });
         });
 
-        // --- TempData Messages ---
-        const loginErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
-        if (loginErrorMessage) { alert(loginErrorMessage); }
-        const successMessage = @Html.Raw(Json.Serialize(TempData["SuccessMessage"]));
-        if (successMessage) { alert(successMessage); }
-
     });
     </script>
 }
+
+
+

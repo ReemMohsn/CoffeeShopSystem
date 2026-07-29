@@ -1,4 +1,4 @@
-﻿@model User
+@model User
 
 @section Links{
     <title>Checkout</title>
@@ -48,7 +48,7 @@ class="Domain"
 placeholder="enter phone number" 
            name="phone" 
            pattern="[0-9]{9,15}" 
-           title="يجب أن يحتوي على أرقام فقط (9-15 رقم)" 
+           title="Must contain numbers only (9-15 digits)" 
            required
            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 </div>
@@ -99,7 +99,7 @@ placeholder="enter phone number"
     <script>
          const ErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
         if (ErrorMessage) { 
-            alert(ErrorMessage);
+            Notify.error(ErrorMessage);
         }
         </script>
 }
@@ -174,7 +174,7 @@ placeholder="enter phone number"
 class="Domain"
 placeholder="enter phone number" 
            pattern="[0-9]{9,15}" 
-           title="يجب أن يحتوي على أرقام فقط (9-15 رقم)" 
+           title="Must contain numbers only (9-15 digits)" 
            required
            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
          <span asp-validation-for="ContactPhone" class="text-danger"></span>
@@ -225,7 +225,7 @@ placeholder="enter phone number"
     <script>
          const ErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
         if (ErrorMessage) { 
-            alert(ErrorMessage);
+            Notify.error(ErrorMessage);
         }
         </script>
 }

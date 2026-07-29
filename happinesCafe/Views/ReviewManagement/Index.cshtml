@@ -1,4 +1,4 @@
-﻿@model IEnumerable<happinesCafe.Models.Admin.ReviewListViewModel>
+@model IEnumerable<happinesCafe.Models.Admin.ReviewListViewModel>
 
 @{
     ViewData["Title"] = "Review Management";
@@ -9,11 +9,7 @@
 
     <h1 class="dashboard-title">Review Management</h1>
 
-    @* Display Success/Error Messages *@
-    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
-    { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
-    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
-    { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
+
 
     @* Filter Section - Only Search Filter Now *@
     <div class="filter-container card">

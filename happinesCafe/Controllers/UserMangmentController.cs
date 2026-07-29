@@ -1,4 +1,4 @@
-﻿using happinesCafe.DATA;
+using happinesCafe.DATA;
 using happinesCafe.Models;
 using happinesCafe.Models.Admin;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +15,7 @@ namespace happinesCafe.Controllers
             _context = context;
         }
         //
+        [HttpGet]
         public IActionResult DisplayUsers()
         {
             IEnumerable<User> usersList = _context.Users.Include(c => c.IdRoleNavigation)
@@ -22,6 +23,7 @@ namespace happinesCafe.Controllers
             return View(usersList);
         }
         //
+        [HttpGet]
         public IActionResult Show(int? id)
         {
             if (id == null || id == 0)
@@ -37,6 +39,7 @@ namespace happinesCafe.Controllers
             return View(user);
         }
         ///
+        [HttpGet]
         public async Task<IActionResult> Orders(int id)
         {
             // Start with a queryable object

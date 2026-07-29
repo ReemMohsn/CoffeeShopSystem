@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using happinesCafe.DATA;
 using happinesCafe.Models;
@@ -15,6 +15,7 @@ namespace happinesCafe.Controllers
             _db = db;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Cart()
         {
             // التحقق من تسجيل دخول المستخدم
@@ -39,6 +40,7 @@ namespace happinesCafe.Controllers
             return View(cartItems);
         }
 
+        [HttpPost]
         public async Task<IActionResult> UpdateQuantity(int basketId,string plusOrminus)
         {
             // البحث عن عنصر السلة مع متعلقاته (الإضافات)
@@ -72,7 +74,6 @@ namespace happinesCafe.Controllers
             return NotFound();
         }
 
-        [HttpGet]
         [HttpPost]
         public async Task<IActionResult> RemoveItem(int basketId)
         {
@@ -107,28 +108,28 @@ namespace happinesCafe.Controllers
         }
 
         [HttpGet]
-        //public IActionResult CheckOut(double totalPrice)
-        //{
-        //    var userId = HttpContext.Session.GetInt32("UserId");
+        public IActionResult CheckOut(double totalPrice)
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
 
-        //    if (userId == null)
-        //    {
-        //        TempData["ErrorMessage"] = "You must log in to check out.";
-        //        return RedirectToAction("Cart");
-        //    }
+            if (userId == null)
+            {
+                TempData["ErrorMessage"] = "You must log in to check out.";
+                return RedirectToAction("Cart");
+            }
 
-        //    var user = _db.Users.Find(userId);
+            var user = _db.Users.Find(userId);
 
-        //    // التحقق من وجود المستخدم
-        //    if (user == null)
-        //    {
-        //        TempData["ErrorMessage"] = "user not found";
-        //        return RedirectToAction("Cart");
-        //    }
+            // التحقق من وجود المستخدم
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "user not found";
+                return RedirectToAction("Cart");
+            }
 
-        //    ViewBag.totalprice = totalPrice;
-        //    return View(user);
-        //}
+            ViewBag.totalprice = totalPrice;
+            return View(user);
+        }
 
         //public IActionResult CheckOut(double totalPrice)
         //{
@@ -253,7 +254,7 @@ namespace happinesCafe.Controllers
 
         //}
         [HttpPost]
-        public async Task<IActionResult> CheckOut(string address, string city, string phone, [FromForm(Name = "totalPrice")] double orderTotal)
+        public async Task<IActionResult> CheckOut([FromForm] string address, [FromForm] string city, [FromForm] string phone, [FromForm(Name = "totalPrice")] double orderTotal)
         {
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
@@ -263,6 +264,11 @@ namespace happinesCafe.Controllers
             }
             var user = _db.Users.Find(userId);
 
+            if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(city) || string.IsNullOrEmpty(phone))
+            {
+                TempData["ErrorMessage"] = "Error: Please fill in all required fields (Address, City, Phone).";
+                return View(user);
+            }
 
             try
             {
@@ -338,7 +344,8 @@ namespace happinesCafe.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = "An error occurred while processing the order";
+                var errorMsg = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                TempData["ErrorMessage"] = "Error: " + errorMsg;
                 return View(user);
             }
         }
@@ -348,7 +355,7 @@ namespace happinesCafe.Controllers
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
             {
-                TempData["ErrorMessage"] = "يجب تسجيل الدخول لإتمام الطلب";
+                TempData["ErrorMessage"] = "You must sign in to complete your order.";
                 return RedirectToAction("Cart");
             }
             IQueryable<Order> ordersQuery = _db.Orders
@@ -414,6 +421,7 @@ namespace happinesCafe.Controllers
         }
 
 
+        [HttpPost]
         public async Task<IActionResult> CancelOrder(int idorder) 
         {
             var order = await _db.Orders

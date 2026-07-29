@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" >
     <link rel="icon" href="~/imges/ty.png"  asp-append-version="true">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
       @await RenderSectionAsync("Links", required: false)
 </head>
 <body class="MainPge">
@@ -130,6 +132,12 @@
         </footer>
          <div class="hgog">© 2024 WS Project. All rights reserved.</div>
        <script src="~/js/main.js" asp-append-version="true"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Global notification helpers -->
+    <script src="~/js/notifications.js" asp-append-version="true"></script>
+    <!-- Global TempData Notifications -->
+    @await Html.PartialAsync("_Notifications")
              @await RenderSectionAsync("Scripts", required: false)
 
 </body>

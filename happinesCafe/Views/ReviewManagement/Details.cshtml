@@ -1,4 +1,4 @@
-﻿@model happinesCafe.Models.Admin.ReviewDetailsViewModel
+@model happinesCafe.Models.Admin.ReviewDetailsViewModel
 
 @{
     ViewData["Title"] = "Review Details";
@@ -9,11 +9,6 @@
 
     <h1 class="dashboard-title">Review Details</h1>
 
-    @* Display Success/Error Messages *@
-    @if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
-    { <div class="alert alert-success">@TempData["SuccessMessage"]</div> }
-    @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
-    { <div class="alert alert-danger">@TempData["ErrorMessage"]</div> }
 
     <div class="details-card card">
 

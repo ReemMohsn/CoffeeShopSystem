@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -82,7 +82,7 @@ namespace happinesCafe.Controllers
             // ✅ التحقق من كلمة المرور الحالية
             if (user.PasswordUser!=model.CurrentPassword)
     {
-        ModelState.AddModelError("CurrentPassword", "كلمة السر الحالية غير صحيحة.");
+        ModelState.AddModelError("CurrentPassword", "The current password is incorrect.");
         return View(model);
     }
     // ✅ تحديث الاسم
@@ -93,7 +93,7 @@ namespace happinesCafe.Controllers
     {
         if (model.NewPassword != model.ConfirmPassword)
         {
-            ModelState.AddModelError("ConfirmPassword", "كلمتا السر غير متطابقتين.");
+            ModelState.AddModelError("ConfirmPassword", "The new passwords do not match.");
             return View(model);
         }
 

@@ -1,4 +1,4 @@
-﻿@model List<Basket>
+@model List<Basket>
 
 @section Links{
     <title>CartPage</title>
@@ -60,7 +60,7 @@
     else
     {
         <div class="empty-cart-message">
-            سلة التسوق فارغة
+            Your cart is empty
         </div>
     }
     <br>
@@ -90,7 +90,7 @@ else
     <script>
          const loginErrorMessage = @Html.Raw(Json.Serialize(TempData["ErrorMessage"]));
         if (loginErrorMessage) { 
-            alert(loginErrorMessage);
+            Notify.error(loginErrorMessage);
         } 
     </script>
 }

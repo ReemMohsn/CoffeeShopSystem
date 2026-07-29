@@ -1,4 +1,4 @@
-﻿using happinesCafe.DATA;
+using happinesCafe.DATA;
 using happinesCafe.Models;
 using happinesCafe.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -159,6 +159,9 @@ namespace happinesCafe.Controllers
                 return View();
             }
 
+            user.IdRoleNavigation = null;
+            user.StatusNavigation = null;
+
             _db.Users.Add(user);
             await _db.SaveChangesAsync();
 
@@ -289,7 +292,7 @@ namespace happinesCafe.Controllers
         {
             if (string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(confirmPassword))
             {
-                TempData["ErrorMessage"]= "جميع الحقول مطلوبة.";
+                TempData["ErrorMessage"] = "All fields are required.";
                 return View("ResetPassword", token);
             }
 
