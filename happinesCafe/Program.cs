@@ -3,11 +3,13 @@ using happinesCafe.DATA;
 using Microsoft.EntityFrameworkCore;
 
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    EnvironmentName = Environments.Development, // Ãæ Environments.Production
-    Args = args
-});
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+//{
+//    EnvironmentName = Environments.Development, // Ãæ Environments.Production
+//    Args = args
+//});
+
+var builder = WebApplication.CreateBuilder(args);
 
 //var builder = WebApplication.CreateBuilder(args);
 
