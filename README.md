@@ -1,7 +1,7 @@
 <h1 align="center">☕ Happiness Cafe — Online Coffee Shop</h1>
 
 <p align="center">
-  An online coffee and sweets ordering web application with an administrative dashboard built with <b>ASP.NET Core MVC</b> — University Team Project.
+  An online coffee and sweets ordering web application with a full administrative dashboard built with <b>ASP.NET Core MVC</b> — University Team Project.
 </p>
 
 <p align="center">
@@ -25,21 +25,23 @@
 <a id="about"></a>
 ## ☕ About the Project
 
-**Happiness Cafe (Online Coffee Shop)** is a web application built with **ASP.NET Core MVC** as a university team project. It allows customers to explore hot drinks, cold drinks, coffee blends, and sweets, read reviews, and place orders online from home, while providing staff with a dedicated administrative dashboard to manage products and customer orders.
+**Happiness Cafe (Online Coffee Shop)** is a full-featured web application built with **ASP.NET Core MVC** as a university team project. It provides customers with a smooth online ordering experience—from browsing categorized drinks and sweets and customizing orders to checkout and order tracking—alongside a dedicated **Admin Dashboard** for managing orders, products, users, and customer reviews.
 
 <a id="features"></a>
 ## ✨ Key Features
 
 - 🛍️ **Categorized Storefront & Menu** — Browse **Hot Drinks**, **Cold Drinks**, **Sweets**, and packaged **Coffee Products** with pricing, sizes, and ratings.
-- 🛒 **Shopping Cart, Favorites & Online Ordering** — Enables customers to favorite items, add products to the cart, and submit orders online from home.
-- 🔐 **User Authentication** — Sign In, Sign Up, and Forgot Password flows for customer and admin accounts.
-- ⭐ **Customer Reviews & Contact Us** — Displays customer ratings and feedback alongside an interactive location map and inquiry form.
-- 🛠️ **Admin Dashboard** — Dedicated administrative panel to add, update, and manage menu products and incoming customer orders.
+- 🎨 **Product Customization** — Select drink sizes (`S / M / L`) or package weights (`500g / 700g / 1000g`) and optional sugar/milk add-ons with dynamic price updates.
+- 🛒 **Shopping Cart, Favorites & Checkout** — Manage cart quantities, save favorites, enter billing/shipping details, and place orders with Cash on Delivery.
+- 📋 **Customer Orders & Profile** — Track order history with status/date/ID filtering, inspect order details, and view user account information.
+- 🔐 **Authentication & Password Recovery** — Sign In, Sign Up, and Forgot Password workflows.
+- 📊 **Admin Dashboard & Analytics** — Real-time KPI cards for daily/monthly sales, new orders, pending/cancelled orders, new products, and active users.
+- 🛠️ **Full Admin Management Panels** — Dedicated modules for **Orders Management**, **Products Management** (CRUD), **Users Management**, and **Review Management**.
 
 <a id="screenshots"></a>
 ## 🖥️ Screenshots
 
-A look at the Happiness Cafe web application interfaces:
+### Customer Storefront
 
 <table>
   <tr>
@@ -48,38 +50,68 @@ A look at the Happiness Cafe web application interfaces:
       <br /><b>Home Page</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185429.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185429.jpg" alt="Our Strength and About Us" width="420" /></a>
-      <br /><b>Our Strength & About Us</b>
-    </td>
-  </tr>
-  <tr>
-    <td align="center" width="50%">
       <a href="screenshots/لقطة%20شاشة%202026-11-20%20185432.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185432.jpg" alt="Menu Categories" width="420" /></a>
       <br /><b>Menu Categories</b>
     </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <a href="screenshots/لقطة%20شاشة%202026-11-20%20185439.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185439.jpg" alt="Coffee Products" width="420" /></a>
       <br /><b>Coffee Products</b>
     </td>
-  </tr>
-  <tr>
     <td align="center" width="50%">
       <a href="screenshots/لقطة%20شاشة%202026-11-20%20185515.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185515.jpg" alt="Sweets Menu" width="420" /></a>
       <br /><b>Sweets Menu</b>
     </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185448.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185448.jpg" alt="Customer Reviews" width="420" /></a>
-      <br /><b>Customer Reviews</b>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185527.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185527.jpg" alt="Product Details and Customization" width="420" /></a>
+      <br /><b>Product Details & Customization</b>
+    </td>
+    <td align="center" width="50%">
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185628.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185628.jpg" alt="Shopping Cart" width="420" /></a>
+      <br /><b>Shopping Cart</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185459.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185459.jpg" alt="Contact Us and Location Map" width="420" /></a>
-      <br /><b>Contact Us & Map</b>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185640.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185640.jpg" alt="Checkout and Billing Information" width="420" /></a>
+      <br /><b>Checkout & Billing</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185522.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185522.jpg" alt="Sign In Page" width="420" /></a>
-      <br /><b>Sign In</b>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185645.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185645.jpg" alt="Customer Orders History" width="420" /></a>
+      <br /><b>Customer Orders</b>
+    </td>
+  </tr>
+</table>
+
+### Admin Dashboard
+
+<p align="center">
+  <a href="screenshots/لقطة%20شاشة%202026-11-20%20185807.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185807.jpg" alt="Admin Dashboard Overview" width="680" /></a>
+  <br /><b>Admin Dashboard Overview</b>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185821.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185821.jpg" alt="Orders Management" width="420" /></a>
+      <br /><b>Orders Management</b>
+    </td>
+    <td align="center" width="50%">
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185955.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185955.jpg" alt="Products Management" width="420" /></a>
+      <br /><b>Products Management</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185845.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185845.jpg" alt="Users Management" width="420" /></a>
+      <br /><b>Users Management</b>
+    </td>
+    <td align="center" width="50%">
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185853.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185853.jpg" alt="Review Management" width="420" /></a>
+      <br /><b>Review Management</b>
     </td>
   </tr>
 </table>
