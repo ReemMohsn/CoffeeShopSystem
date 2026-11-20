@@ -46,41 +46,41 @@
 <table>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185423.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185423.jpg" alt="Home Page" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185423.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185423.png" alt="Home Page" width="420" /></a>
       <br /><b>Home Page</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185432.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185432.jpg" alt="Menu Categories" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185432.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185432.png" alt="Menu Categories" width="420" /></a>
       <br /><b>Menu Categories</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185439.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185439.jpg" alt="Coffee Products" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185439.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185439.png" alt="Coffee Products" width="420" /></a>
       <br /><b>Coffee Products</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185515.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185515.jpg" alt="Sweets Menu" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185515.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185515.png" alt="Sweets Menu" width="420" /></a>
       <br /><b>Sweets Menu</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185527.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185527.jpg" alt="Product Details and Customization" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185527.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185527.png" alt="Product Details and Customization" width="420" /></a>
       <br /><b>Product Details & Customization</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185628.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185628.jpg" alt="Shopping Cart" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185628.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185628.png" alt="Shopping Cart" width="420" /></a>
       <br /><b>Shopping Cart</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185640.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185640.jpg" alt="Checkout and Billing Information" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185640.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185640.png" alt="Checkout and Billing Information" width="420" /></a>
       <br /><b>Checkout & Billing</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185645.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185645.jpg" alt="Customer Orders History" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185645.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185645.png" alt="Customer Orders History" width="420" /></a>
       <br /><b>Customer Orders</b>
     </td>
   </tr>
@@ -89,33 +89,32 @@
 ### Admin Dashboard
 
 <p align="center">
-  <a href="screenshots/لقطة%20شاشة%202026-11-20%20185807.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185807.jpg" alt="Admin Dashboard Overview" width="680" /></a>
+  <a href="screenshots/لقطة%20شاشة%202026-11-20%20185807.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185807.png" alt="Admin Dashboard Overview" width="680" /></a>
   <br /><b>Admin Dashboard Overview</b>
 </p>
 
 <table>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185821.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185821.jpg" alt="Orders Management" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185821.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185821.png" alt="Orders Management" width="420" /></a>
       <br /><b>Orders Management</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185955.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185955.jpg" alt="Products Management" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185955.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185955.png" alt="Products Management" width="420" /></a>
       <br /><b>Products Management</b>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185845.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185845.jpg" alt="Users Management" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185845.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185845.png" alt="Users Management" width="420" /></a>
       <br /><b>Users Management</b>
     </td>
     <td align="center" width="50%">
-      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185853.jpg"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185853.jpg" alt="Review Management" width="420" /></a>
+      <a href="screenshots/لقطة%20شاشة%202026-11-20%20185853.png"><img src="screenshots/لقطة%20شاشة%202026-11-20%20185853.png" alt="Review Management" width="420" /></a>
       <br /><b>Review Management</b>
     </td>
   </tr>
 </table>
-
 <a id="live-demo"></a>
 ## 🌐 Live Demo
 
